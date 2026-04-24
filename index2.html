@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>HANZZ PRODUCT</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background: radial-gradient(circle at 20% 30%, #0a0a0a, #000000);
+            font-family: 'Poppins', 'Segoe UI', 'Tahoma', system-ui, -apple-system, sans-serif;
+            color: white;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* efek partikel latar belakang dinamis (tanpa mengganggu logika) */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                repeating-linear-gradient(transparent 0px, transparent 29px, rgba(255,0,0,0.03) 30px),
+                radial-gradient(circle at 40% 50%, rgba(255,0,0,0.05) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Efek Glow mengambang untuk atmosfer */
+        .glow-orb {
+            position: fixed;
+            width: 60vmax;
+            height: 60vmax;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255,0,0,0.15), transparent 70%);
+            top: -20vmax;
+            right: -20vmax;
+            z-index: 0;
+            pointer-events: none;
+            animation: floatGlow 18s infinite alternate ease-in-out;
+        }
+
+        .glow-orb2 {
+            position: fixed;
+            width: 50vmax;
+            height: 50vmax;
+            background: radial-gradient(circle, rgba(200,0,0,0.1), transparent 70%);
+            bottom: -15vmax;
+            left: -15vmax;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 0;
+            animation: floatGlow2 14s infinite alternate;
+        }
+
+        @keyframes floatGlow {
+            0% { transform: translate(0, 0) scale(1); opacity: 0.5; }
+            100% { transform: translate(5%, 5%) scale(1.1); opacity: 0.8; }
+        }
+
+        @keyframes floatGlow2 {
+            0% { transform: translate(0, 0) scale(1); opacity: 0.4; }
+            100% { transform: translate(-3%, -3%) scale(1.2); opacity: 0.7; }
+        }
+
+        /* Judul utama dengan efek neon merah + animasi goyang halus */
+        h1 {
+            color: #ff0000;
+            font-size: clamp(2.2rem, 8vw, 4.8rem);
+            text-transform: uppercase;
+            text-shadow: 0 0 8px #ff0000, 0 0 18px #ff3300, 0 0 35px #aa0000;
+            margin-bottom: 25px;
+            letter-spacing: 6px;
+            font-weight: 800;
+            position: relative;
+            z-index: 2;
+            backdrop-filter: blur(2px);
+            animation: titlePulse 2.2s infinite ease-in-out;
+            transition: all 0.2s;
+        }
+
+        @keyframes titlePulse {
+            0% { text-shadow: 0 0 5px #ff0000, 0 0 12px #cc0000; opacity: 0.95; letter-spacing: 6px; }
+            50% { text-shadow: 0 0 16px #ff4d4d, 0 0 28px #ff0000, 0 0 40px #990000; opacity: 1; letter-spacing: 7px; }
+            100% { text-shadow: 0 0 5px #ff0000, 0 0 12px #cc0000; opacity: 0.95; letter-spacing: 6px; }
+        }
+
+        /* Kotak Menu Premium - Border RGB Merah lebih hidup dan efek glassmorphism */
+        .menu-box {
+            background: rgba(12, 12, 16, 0.75);
+            backdrop-filter: blur(8px);
+            padding: 28px 48px;
+            border-radius: 32px;
+            border: 2.5px solid transparent;
+            background-clip: padding-box;
+            position: relative;
+            z-index: 2;
+            text-align: left;
+            min-width: 280px;
+            box-shadow: 0 25px 40px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 0, 0, 0.2) inset;
+            transition: transform 0.25s ease, box-shadow 0.3s;
+        }
+
+        .menu-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 30px 50px rgba(255, 0, 0, 0.25);
+        }
+
+        /* Animasi border RGB merah bergerak (border-image asli dikembangkan) */
+        .menu-box::before {
+            content: '';
+            position: absolute;
+            top: -3px;
+            left: -3px;
+            right: -3px;
+            bottom: -3px;
+            background: linear-gradient(95deg, #ff0000, #cc2200, #ff4d4d, #b30000, #ff0000);
+            background-size: 300% 300%;
+            border-radius: 34px;
+            z-index: -1;
+            animation: rgbBorderMove 3s linear infinite alternate;
+            filter: blur(2px);
+            opacity: 0.9;
+        }
+
+        /* Efek tambahan border glow dinamis */
+        @keyframes rgbBorderMove {
+            0% { background-position: 0% 50%; opacity: 0.7; }
+            50% { background-position: 100% 50%; opacity: 1; }
+            100% { background-position: 0% 50%; opacity: 0.7; }
+        }
+
+        /* Isi menu dengan styling typografi premium */
+        .menu-box p {
+            margin: 0;
+            font-size: 1.2rem;
+            line-height: 2;
+            color: #f0f0f0;
+            font-weight: 500;
+            letter-spacing: 0.3px;
+            display: flex;
+            align-items: baseline;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .menu-title {
+            font-weight: 800;
+            font-size: 1.6rem;
+            text-decoration: none;
+            margin-bottom: 18px !important;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 2px solid rgba(255, 50, 50, 0.5);
+            padding-bottom: 8px;
+            letter-spacing: 1px;
+            color: #ff7070;
+        }
+
+        .menu-title::before {
+            content: "✦";
+            font-size: 1.3rem;
+            color: #ff3333;
+            text-shadow: 0 0 4px red;
+        }
+
+        /* Styling untuk setiap menu item */
+        .menu-item {
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px dashed rgba(255, 80, 80, 0.3);
+            padding: 6px 0;
+            transition: all 0.2s;
+        }
+
+        .menu-item:hover {
+            border-bottom-color: #ff4d4d;
+            transform: translateX(5px);
+            text-shadow: 0 0 2px rgba(255,0,0,0.5);
+        }
+
+        .menu-name {
+            font-weight: 600;
+        }
+
+        .menu-price {
+            color: #ff8080;
+            font-weight: 700;
+            font-family: monospace;
+            font-size: 1.2rem;
+        }
+
+        /* Tombol Buy yang lebih dramatis */
+        .btn-buy {
+            margin-top: 40px;
+            padding: 14px 56px;
+            background: linear-gradient(135deg, #ff0000, #b10000);
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            text-transform: uppercase;
+            border: none;
+            border-radius: 60px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.2rem;
+            letter-spacing: 2px;
+            transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            position: relative;
+            z-index: 2;
+            box-shadow: 0 8px 20px rgba(180, 0, 0, 0.5), 0 0 0 1px rgba(255,255,200,0.3) inset;
+            backdrop-filter: blur(2px);
+        }
+
+        .btn-buy::after {
+            content: "🛒";
+            font-size: 1.2rem;
+            transition: transform 0.2s;
+        }
+
+        .btn-buy:hover {
+            background: linear-gradient(135deg, #ff3333, #cc0000);
+            transform: scale(1.05);
+            box-shadow: 0 12px 28px rgba(255, 0, 0, 0.7), 0 0 15px rgba(255, 80, 80, 0.8);
+            letter-spacing: 3px;
+        }
+
+        .btn-buy:hover::after {
+            transform: translateX(6px) scale(1.1);
+        }
+
+        /* Efek angka harga kecil dengan animasi angka interaktif */
+        .price-badge {
+            background: #1a0000;
+            padding: 2px 8px;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            margin-left: 8px;
+            border-left: 2px solid #ff3a3a;
+        }
+
+        /* Responsive dan sentuhan modern */
+        @media (max-width: 550px) {
+            .menu-box {
+                padding: 20px 28px;
+                min-width: 260px;
+            }
+            .menu-box p {
+                font-size: 1rem;
+                line-height: 1.8;
+            }
+            .menu-title {
+                font-size: 1.3rem;
+            }
+            .btn-buy {
+                padding: 12px 40px;
+                font-size: 1rem;
+            }
+        }
+
+        /* elemen tambahan: tooltip harga (opsional) tetap ringan */
+        footer {
+            position: fixed;
+            bottom: 12px;
+            font-size: 0.7rem;
+            opacity: 0.5;
+            z-index: 2;
+            color: #aaa;
+            font-family: monospace;
+            pointer-events: none;
+        }
+
+        /* Animasi fade-in untuk konten utama */
+        h1, .menu-box, .btn-buy {
+            animation: fadeSlideUp 0.6s ease-out forwards;
+            opacity: 0;
+        }
+        h1 { animation-delay: 0.1s; }
+        .menu-box { animation-delay: 0.2s; }
+        .btn-buy { animation-delay: 0.4s; }
+
+        @keyframes fadeSlideUp {
+            from {
+                opacity: 0;
+                transform: translateY(28px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="glow-orb"></div>
+    <div class="glow-orb2"></div>
+
+    <h1>HANZZ PRODUCT</h1>
+
+    <div class="menu-box">
+        <p class="menu-title">✦ LIST MENU ✦</p>
+        <div class="menu-item">
+            <span class="menu-name">Jasbug</span>
+            <span class="menu-price">2k <span class="price-badge">IDR</span></span>
+        </div>
+        <div class="menu-item">
+            <span class="menu-name">Jasa Create Link Phising</span>
+            <span class="menu-price">2k - 5k<span class="price-badge">IDR</span></span>
+        </div>
+        <div class="menu-item">
+            <span class="menu-name">Apk Bug Wa:Void Engine</span>
+            <span class="menu-price">5k - 100k<span class="price-badge">IDR</span></span>
+        </div>
+        <!-- struktur tetap mempertahankan 3 menu asli dengan harga persis seperti aslinya -->
+    </div>
+
+    <!-- Tombol buy menuju index3.html, seperti aslinya -->
+    <a href="index3.html" class="btn-buy">Buy</a>
+    
+    <footer>Dev By HANZZ</footer>
+
+    <!-- sedikit skrip tambahan agar interaksi lebih hidup (TIDAK mengubah logika asli; hanya visual feedback) -->
+    <script>
+        (function() {
+            // Menambahkan efek klik pada tombol buy untuk memberi notif ringan (opsional, tanpa merusak navigasi)
+            const buyBtn = document.querySelector('.btn-buy');
+            if (buyBtn) {
+                buyBtn.addEventListener('click', function(e) {
+                    // Tidak mencegah navigasi — tetap menuju index3.html
+                    // hanya menambahkan efek getar / feel good
+                    this.style.transform = 'scale(0.98)';
+                    setTimeout(() => {
+                        if (this) this.style.transform = '';
+                    }, 120);
+                    // console log hanya sentuhan (tidak mengganggu)
+                });
+            }
+
+            // Efek hover lebih halus pada menu box dan item
+            const menuItems = document.querySelectorAll('.menu-item');
+            menuItems.forEach(item => {
+                item.addEventListener('mouseenter', () => {
+                    const priceSpan = item.querySelector('.menu-price');
+                    if (priceSpan) {
+                        priceSpan.style.textShadow = '0 0 4px #ff8888';
+                    }
+                });
+                item.addEventListener('mouseleave', () => {
+                    const priceSpan = item.querySelector('.menu-price');
+                    if (priceSpan) {
+                        priceSpan.style.textShadow = 'none';
+                    }
+                });
+            });
+
+            // Tambahan efek untuk judul HANZZ PRODUCT interaktif
+            const title = document.querySelector('h1');
+            if(title) {
+                title.addEventListener('mouseenter', () => {
+                    title.style.animation = 'none';
+                    title.style.transform = 'scale(1.02)';
+                    title.style.transition = '0.2s';
+                });
+                title.addEventListener('mouseleave', () => {
+                    title.style.transform = '';
+                    title.style.animation = 'titlePulse 2.2s infinite ease-in-out';
+                });
+            }
+
+            // Animasi border rgb pada .menu-box secara realtime (sudah ada di CSS)
+            // Untuk memastikan kode terlihat dan border tetap sesuai dengan keinginan awal: border RGB merah!
+            // Dan tidak mengubah fungsionalitas atau alur BUY menuju index3.html
+            console.log("Hanzz Product | Red Edition Active — all asli logic preserved");
+        })();
+    </script>
+</body>
+</html>

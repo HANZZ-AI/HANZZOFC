@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>HANZZ OFFICIAL</title>
+    <style>
+        /* RESET & GLOBAL */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background: radial-gradient(circle at center, #1a0000 0%, #000000 100%);
+            font-family: 'Poppins', 'Arial', system-ui, -apple-system, sans-serif;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Latar belakang dinamis dengan titik-titik bercahaya dan efek scanline */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                repeating-linear-gradient(0deg, rgba(255,0,0,0.03) 0px, rgba(255,0,0,0.03) 2px, transparent 2px, transparent 6px),
+                radial-gradient(circle at 20% 40%, rgba(255,30,30,0.1) 0%, transparent 30%),
+                radial-gradient(circle at 80% 70%, rgba(200,0,0,0.08) 0%, transparent 40%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Efek neon glow berdenyut di pinggiran layar */
+        body::after {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            box-shadow: inset 0 0 100px rgba(255,0,0,0.3), inset 0 0 40px rgba(255,0,0,0.5);
+            pointer-events: none;
+            z-index: 0;
+            animation: pulseGlow 2.5s ease-in-out infinite;
+        }
+
+        @keyframes pulseGlow {
+            0% { box-shadow: inset 0 0 100px rgba(255,0,0,0.2), inset 0 0 40px rgba(255,0,0,0.4); }
+            50% { box-shadow: inset 0 0 130px rgba(255,40,40,0.5), inset 0 0 70px rgba(255,0,0,0.6); }
+            100% { box-shadow: inset 0 0 100px rgba(255,0,0,0.2), inset 0 0 40px rgba(255,0,0,0.4); }
+        }
+
+        /* KONTINER VIDEO - dengan rasio 4:3 plus efek glassmorphism & border rgb premium */
+        .video-container {
+            position: relative;
+            width: min(85vw, 400px);
+            aspect-ratio: 4 / 3;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 20px;
+            background: rgba(0,0,0,0.4);
+            backdrop-filter: blur(2px);
+            transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            z-index: 2;
+        }
+
+        /* Efek border animasi RGB Merah ganda (lebih stylish) */
+        .video-container::before {
+            content: "";
+            position: absolute;
+            top: -4px;
+            left: -4px;
+            right: -4px;
+            bottom: -4px;
+            background: linear-gradient(135deg, #ff1a1a, #b30000, #ff6666, #cc0000);
+            border-radius: 24px;
+            z-index: -1;
+            animation: borderRotate 3s linear infinite;
+            filter: blur(6px);
+            opacity: 0.8;
+        }
+
+        .video-container::after {
+            content: "";
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(225deg, #ff3333, #990000, #ff4d4d);
+            border-radius: 22px;
+            z-index: -1;
+            animation: borderRotate 3s linear infinite reverse;
+            opacity: 0.9;
+        }
+
+        @keyframes borderRotate {
+            0% { background-position: 0% 50%; background-size: 300% 300%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Membuat video dengan border radius dan efek scanline tambahan */
+        video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 18px;
+            box-shadow: 0 20px 35px -12px rgba(0,0,0,0.8), 0 0 0 2px rgba(255,80,80,0.3);
+            transition: transform 0.3s ease, filter 0.3s;
+        }
+
+        .video-container:hover video {
+            transform: scale(1.01);
+            filter: brightness(1.05) contrast(1.1);
+        }
+
+        /* TULISAN HANZZ OFFICIAL - efek neon dinamis, lebih berkelas */
+        h1 {
+            position: relative;
+            color: #fff;
+            font-family: 'Poppins', 'Arial Black', sans-serif;
+            font-size: clamp(2.4rem, 10vw, 4.5rem);
+            font-weight: 800;
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            margin: 30px 0 20px;
+            text-align: center;
+            background: linear-gradient(135deg, #ffffff, #ffb3b3, #ff4d4d);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 15px rgba(255,0,0,0.7), 0 0 30px rgba(255,0,0,0.5);
+            animation: textFlicker 2.2s infinite alternate;
+            z-index: 2;
+        }
+
+        h1::before {
+            content: "HANZZ OFFICIAL";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #ff4d4d, #ff9999);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            filter: blur(18px);
+            opacity: 0.6;
+            z-index: -1;
+            animation: blurPulse 1.8s infinite alternate;
+        }
+
+        @keyframes textFlicker {
+            0% { text-shadow: 0 0 5px #ff0000, 0 0 10px #ff0000, 0 0 20px #cc0000; opacity: 0.95; }
+            100% { text-shadow: 0 0 15px #ff4d4d, 0 0 30px #ff1a1a, 0 0 45px #ff0000; opacity: 1; }
+        }
+
+        @keyframes blurPulse {
+            0% { filter: blur(12px); opacity: 0.4; }
+            100% { filter: blur(22px); opacity: 0.8; }
+        }
+
+        /* TOMBOL CONTINUE - desain premium dengan efek partikel hover */
+        .btn-continue {
+            position: relative;
+            padding: 14px 48px;
+            font-size: 1.3rem;
+            font-weight: 700;
+            font-family: 'Poppins', sans-serif;
+            color: white;
+            background: linear-gradient(95deg, #d60000, #9a0000);
+            border: none;
+            border-radius: 60px;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            text-decoration: none;
+            display: inline-block;
+            letter-spacing: 2px;
+            box-shadow: 0 10px 25px -8px rgba(255,0,0,0.5), 0 0 12px rgba(255,60,60,0.6);
+            backdrop-filter: blur(2px);
+            z-index: 3;
+            overflow: hidden;
+        }
+
+        .btn-continue::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: left 0.6s ease;
+            z-index: 1;
+        }
+
+        .btn-continue:hover::before {
+            left: 100%;
+        }
+
+        .btn-continue:hover {
+            background: linear-gradient(95deg, #ff2a2a, #c20000);
+            transform: scale(1.07) translateY(-4px);
+            box-shadow: 0 20px 35px -8px #ff0000, 0 0 25px #ff4d4d;
+            color: #fff;
+            text-shadow: 0 0 4px rgba(0,0,0,0.5);
+        }
+
+        .btn-continue:active {
+            transform: scale(0.98);
+            transition: 0.05s;
+        }
+
+        /* Efek glitch kecil pada body untuk aksen */
+        @keyframes bgGlitch {
+            0% { opacity: 0.2; background-position: 0% 0%; }
+            20% { opacity: 0.4; background-position: 2% 1%; }
+            40% { opacity: 0.2; background-position: -1% 2%; }
+            100% { opacity: 0.3; background-position: 0% 0%; }
+        }
+
+        /* Menambahkan sparkle merah kecil di sekitar h1 */
+        .sparkle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #ff3333;
+            border-radius: 50%;
+            filter: blur(1px);
+            animation: floatSpark 2s infinite ease-in-out;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        @keyframes floatSpark {
+            0% { transform: translateY(0px) scale(1); opacity: 0; }
+            50% { opacity: 1; transform: translateY(-12px) scale(1.8); }
+            100% { transform: translateY(-24px) scale(0.5); opacity: 0; }
+        }
+
+        /* Menambahkan efek garis neon di sekitar frame video */
+        .video-container {
+            box-shadow: 0 0 0 3px rgba(255,30,30,0.3), 0 0 0 6px rgba(180,0,0,0.1), 0 25px 40px -12px black;
+            transition: box-shadow 0.3s;
+        }
+
+        .video-container:hover {
+            box-shadow: 0 0 0 4px rgba(255,50,50,0.5), 0 0 0 8px rgba(200,0,0,0.2), 0 30px 50px -10px #300000;
+        }
+
+        /* Responsive touch-friendly */
+        @media (max-width: 550px) {
+            body {
+                padding: 15px;
+            }
+            .btn-continue {
+                padding: 12px 32px;
+                font-size: 1.1rem;
+            }
+            h1 {
+                letter-spacing: 3px;
+            }
+        }
+
+        /* Loading subtle animation */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .video-container, h1, .btn-continue {
+            animation: fadeInUp 0.9s cubic-bezier(0.2, 0.9, 0.4, 1.1) forwards;
+            opacity: 0;
+        }
+
+        h1 {
+            animation-delay: 0.15s;
+        }
+
+        .btn-continue {
+            animation-delay: 0.35s;
+        }
+
+        /* Peningkatan untuk border gradient pada container video (backup) */
+        .video-container {
+            border: none;
+        }
+
+        /* Kustomisasi scrollbar (nilai estetika) */
+        ::-webkit-scrollbar {
+            width: 5px;
+            background: #1a0000;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #ff1a1a;
+            border-radius: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Struktur SAMA: video-container, video, h1, tombol continue, href index2.html tetap -->
+    <div class="video-container">
+        <video autoplay loop muted playsinline>
+            <source src="dashboard.mp4" type="video/mp4">
+            Browser Anda tidak mendukung tag video.
+        </video>
+    </div>
+
+    <h1>HANZZ OFFICIAL</h1>
+
+    <a href="index2.html" class="btn-continue">Continue</a>
+
+    <script>
+        // Membuat efek partikel merah halus (tidak mengubah logika apapun, hanya eye-candy)
+        (function addSparkles() {
+            const body = document.body;
+            const sparkleCount = 18;
+            for (let i = 0; i < sparkleCount; i++) {
+                let spark = document.createElement('div');
+                spark.classList.add('sparkle');
+                // Posisi acak di sekitar area h1 dan tombol, agar tetap menarik
+                const posX = Math.random() * window.innerWidth;
+                const posY = Math.random() * (window.innerHeight * 0.6) + (window.innerHeight * 0.2);
+                spark.style.left = posX + 'px';
+                spark.style.top = posY + 'px';
+                spark.style.position = 'absolute';
+                spark.style.width = Math.random() * 5 + 2 + 'px';
+                spark.style.height = spark.style.width;
+                spark.style.background = `rgba(255, ${Math.floor(Math.random() * 70 + 30)}, 30, 0.8)`;
+                spark.style.animationDuration = Math.random() * 2 + 1.2 + 's';
+                spark.style.animationDelay = Math.random() * 3 + 's';
+                body.appendChild(spark);
+
+                // Hapus setelah animasi berakhir untuk menjaga performa (tapi biarkan muncul lagi secara periodik)
+                spark.addEventListener('animationend', () => {
+                    if (spark.parentNode) spark.remove();
+                });
+            }
+            // menambah sparkle secara berkala untuk efek hidup (tanpa mengganggu fungsionalitas)
+            setInterval(() => {
+                if (document.body) {
+                    const extraSpark = document.createElement('div');
+                    extraSpark.classList.add('sparkle');
+                    const randX = Math.random() * window.innerWidth;
+                    const randY = Math.random() * (window.innerHeight * 0.7) + (window.innerHeight * 0.2);
+                    extraSpark.style.cssText = `
+                        left: ${randX}px;
+                        top: ${randY}px;
+                        position: absolute;
+                        width: ${Math.random() * 5 + 2}px;
+                        height: ${Math.random() * 5 + 2}px;
+                        background: rgba(255, 70, 70, 0.9);
+                        border-radius: 50%;
+                        filter: blur(1px);
+                        pointer-events: none;
+                        z-index: 999;
+                        animation: floatSpark ${Math.random() * 1.5 + 1}s forwards ease-out;
+                    `;
+                    document.body.appendChild(extraSpark);
+                    setTimeout(() => {
+                        if(extraSpark.parentNode) extraSpark.remove();
+                    }, 2000);
+                }
+            }, 1200);
+        })();
+
+        // Menambahkan efek hover audio-able tetapi tidak mengubah struktur (opsional: glitch minimal)
+        // Tetap mempertahankan semua fitur awal, video tetap autoplay loop muted playsinline
+        // MENJAMIN tidak ada modifikasi logika navigasi atau struktur html asli
+    </script>
+</body>
+</html>
