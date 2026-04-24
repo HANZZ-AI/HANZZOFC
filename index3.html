@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HANZZ ORDER</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: radial-gradient(circle at center, #0a0a0a 0%, #000000 100%);
+            font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+            padding: 20px;
+        }
+
+        /* Judul HANZZ ORDER dengan efek neon merah berkedip */
+        h1 {
+            font-size: 4.5rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 6px;
+            color: #ff0000;
+            text-shadow: 
+                0 0 5px #ff0000,
+                0 0 10px #ff0000,
+                0 0 20px #ff0000,
+                0 0 40px #ff3300,
+                0 0 80px #ff3300;
+            animation: neonPulse 1.2s ease-in-out infinite alternate;
+            margin-bottom: 60px;
+            text-align: center;
+        }
+
+        @keyframes neonPulse {
+            0% {
+                text-shadow: 
+                    0 0 2px #ff0000,
+                    0 0 5px #ff0000,
+                    0 0 10px #ff0000,
+                    0 0 20px #ff3300;
+                opacity: 0.9;
+            }
+            100% {
+                text-shadow: 
+                    0 0 10px #ff0000,
+                    0 0 20px #ff0000,
+                    0 0 40px #ff4444,
+                    0 0 80px #ff0000,
+                    0 0 120px #ff3300;
+                opacity: 1;
+            }
+        }
+
+        /* Container tombol */
+        .button-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            width: 100%;
+            max-width: 380px;
+        }
+
+        /* Desain dasar tombol */
+        .btn-google {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 18px 28px;
+            border: none;
+            border-radius: 60px;
+            text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Teks tombol putih bersih */
+        .btn-text {
+            font-size: 1.4rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: white;
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Tombol 1 - Merah */
+        .btn-red {
+            background: linear-gradient(135deg, #00cc44, #009933);
+            box-shadow: 0 0 10px rgba(25,248,0,1);
+        }
+        .btn-red:hover {
+            background: linear-gradient(135deg, #00cc44, #009933);
+            box-shadow: 0 0 20px #00cc44, 0 0 35px rgba(25,248,0,1);
+            transform: translateY(-3px);
+        }
+
+        /* Tombol 2 - Biru */
+        .btn-blue {
+            background: linear-gradient(135deg, #00cc44, #009933);
+            box-shadow: 0 0 10px rgba(25,248,0,1);
+        }
+        .btn-blue:hover {
+            background: linear-gradient(135deg, #00cc44, #009933);
+            box-shadow: 0 0 20px #00cc44, 0 0 35px rgba(25,248,0,1);
+            transform: translateY(-3px);
+        }
+
+        /* Tombol 3 - Hijau */
+        .btn-green {
+            background: linear-gradient(135deg, #0066ff, #0044cc);
+            box-shadow: 0 0 10px rgba(9,35,255,0.5);
+        }
+        .btn-green:hover {
+            background: linear-gradient(135deg, #0066ff, #0044cc);
+            box-shadow: 0 0 20px #0066ff, 0 0 35px rgba(9,35,255,0.5);
+            transform: translateY(-3px);
+        }
+
+        /* Tombol 4 - Ungu */
+        .btn-purple {
+            background: linear-gradient(135deg, #0066ff, #0044cc);
+            box-shadow: 0 0 10px rgba(9,35,255,0.5);
+        }
+        .btn-purple:hover {
+            background: linear-gradient(135deg, #0066ff, #0044cc);
+            box-shadow: 0 0 20px #0066ff, 0 0 35px rgba(9,35,255,0.5);
+            transform: translateY(-3px);
+        }
+
+        /* Efek garis cahaya putih yang melintas saat hover */
+        .btn-google::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 80%;
+            height: 100%;
+            background: linear-gradient(90deg, 
+                transparent, 
+                rgba(255, 255, 255, 0.4), 
+                transparent);
+            transform: skewX(-25deg);
+            transition: left 0.6s ease;
+            pointer-events: none;
+        }
+
+        .btn-google:hover::before {
+            left: 150%;
+        }
+
+        /* Efek klik */
+        .btn-google:active {
+            transform: translateY(2px) scale(0.97);
+            transition: 0.05s;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>HANZZ ORDER</h1>
+
+    <div class="button-container">
+        <a href="https://wa.me/6283196463931?text=Bang+Order" class="btn-google btn-red">
+            <span class="btn-text">Contact Wa HANZZ📞</span>
+        </a>
+        <a href="https://whatsapp.com/channel/0029VbBunErGpLHUO67ZIW0Y" class="btn-google btn-blue">
+            <span class="btn-text">Join Saluran Wa</span>
+        </a>
+        <a href="https://t.me/HANZZXBUG" class="btn-google btn-green">
+            <span class="btn-text">Contact Tele HANZZ📞 </span>
+        </a>
+        <a href="https://t.me/HANZZOFC" class="btn-google btn-purple">
+            <span class="btn-text">Join Telegram Channel</span>
+        </a>
+    </div>
+
+</body>
+</html>
