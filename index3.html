@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <title>HANZZ ORDER</title>
     <style>
         * {
@@ -17,14 +17,118 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            background: radial-gradient(circle at center, #0a0a0a 0%, #000000 100%);
-            font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
-            padding: 20px;
+            font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, 'Roboto', sans-serif;
+            padding: 28px 20px 40px;
+            position: relative;
+            background-color: #0a0a0a;
+        }
+
+        /* Background dengan gambar ukuran 19:6 (background.png) */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('background.png');
+            background-size: cover;
+            background-position: center center;
+            background-repeat: no-repeat;
+            opacity: 0.75;
+            z-index: -2;
+        }
+
+        /* Overlay gelap agar teks tetap terbaca */
+        body::after {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.65);
+            z-index: -1;
+        }
+
+        /* Container utama premium */
+        .linktree-container {
+            max-width: 560px;
+            width: 100%;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(2px);
+        }
+
+        /* Bagian Profil / Avatar + Nama & Bio */
+        .profile-section {
+            text-align: center;
+            margin-bottom: 28px;
+            animation: fadeInUp 0.7s ease-out;
+        }
+
+        .avatar-wrapper {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 16px;
+            background: linear-gradient(135deg, #ff2a2a, #ff0000, #cc0000);
+            border-radius: 50%;
+            padding: 3px;
+            box-shadow: 0 0 25px rgba(255, 0, 0, 0.7), 0 0 10px rgba(255, 80, 0, 0.5);
+            transition: transform 0.25s ease, box-shadow 0.3s;
+        }
+
+        .avatar-wrapper:hover {
+            transform: scale(1.03);
+            box-shadow: 0 0 35px rgba(255, 0, 0, 0.9);
+        }
+
+        .avatar-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+            background-color: #1a1a1a;
+            display: block;
+        }
+
+        /* Fallback jika icon.png tidak ada/tampil bagus */
+        .profile-name {
+            font-size: 2rem;
+            font-weight: 800;
+            letter-spacing: 2px;
+            background: linear-gradient(135deg, #ff4d4d, #ffb3b3);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 8px rgba(255, 30, 30, 0.4);
+            margin-top: 10px;
+        }
+
+        .profile-bio {
+            font-size: 0.9rem;
+            color: #f0f0f0;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(8px);
+            display: inline-block;
+            padding: 6px 20px;
+            border-radius: 40px;
+            font-weight: 500;
+            margin-top: 12px;
+            border: 1px solid rgba(255, 80, 40, 0.6);
+            letter-spacing: 0.5px;
         }
 
         /* Judul HANZZ ORDER dengan efek neon merah berkedip */
+        .brand-neon {
+            text-align: center;
+            margin-bottom: 28px;
+        }
         h1 {
-            font-size: 4.5rem;
+            font-size: 3.5rem;
             font-weight: 900;
             text-transform: uppercase;
             letter-spacing: 6px;
@@ -36,8 +140,10 @@
                 0 0 40px #ff3300,
                 0 0 80px #ff3300;
             animation: neonPulse 1.2s ease-in-out infinite alternate;
-            margin-bottom: 60px;
-            text-align: center;
+            display: inline-block;
+            background: rgba(0,0,0,0.3);
+            padding: 0 12px;
+            border-radius: 20px;
         }
 
         @keyframes neonPulse {
@@ -47,113 +153,141 @@
                     0 0 5px #ff0000,
                     0 0 10px #ff0000,
                     0 0 20px #ff3300;
-                opacity: 0.9;
+                opacity: 0.95;
             }
             100% {
                 text-shadow: 
-                    0 0 10px #ff0000,
-                    0 0 20px #ff0000,
-                    0 0 40px #ff4444,
-                    0 0 80px #ff0000,
-                    0 0 120px #ff3300;
+                    0 0 8px #ff0000,
+                    0 0 18px #ff0000,
+                    0 0 35px #ff4444,
+                    0 0 70px #ff0000,
+                    0 0 110px #ff3300;
                 opacity: 1;
             }
         }
 
-        /* Container tombol */
+        /* Container tombol premium */
         .button-container {
             display: flex;
             flex-direction: column;
             gap: 20px;
             width: 100%;
-            max-width: 380px;
+            margin-top: 8px;
         }
 
-        /* Desain dasar tombol */
+        /* Desain tombol super keren dengan efek glassmorphism + gradasi intens */
         .btn-google {
             display: flex;
             align-items: center;
-            justify-content: center;
-            padding: 18px 28px;
+            justify-content: flex-start;
+            padding: 14px 24px;
             border: none;
-            border-radius: 60px;
+            border-radius: 80px;
             text-decoration: none;
-            transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            transition: all 0.35s cubic-bezier(0.2, 0.9, 0.4, 1.2);
             position: relative;
             overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255,255,255,0.1) inset;
+            backdrop-filter: blur(4px);
+            gap: 18px;
+            cursor: pointer;
         }
 
-        /* Teks tombol putih bersih */
+        /* Ikon tombol lebih halus dan presisi */
+        .btn-icon {
+            width: 34px;
+            height: 34px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+            transition: transform 0.2s ease;
+            flex-shrink: 0;
+        }
+
+        .btn-icon svg {
+            width: 28px;
+            height: 28px;
+            fill: white;
+            transition: all 0.2s;
+        }
+
+        /* Teks tombol modern */
         .btn-text {
-            font-size: 1.4rem;
+            font-size: 1.2rem;
             font-weight: 700;
-            letter-spacing: 2px;
+            letter-spacing: 1.2px;
             text-transform: uppercase;
             color: white;
             transition: all 0.3s ease;
             position: relative;
             z-index: 2;
+            flex: 1;
+            text-align: left;
         }
 
-        /* Tombol 1 - Merah */
+        /* Tombol 1 - WA (green neon premium) */
         .btn-red {
-            background: linear-gradient(135deg, #00cc44, #009933);
-            box-shadow: 0 0 10px rgba(25,248,0,1);
+            background: linear-gradient(105deg, #075E54, #128C7E, #25D366);
+            background-size: 200% auto;
+            box-shadow: 0 0 14px rgba(37, 211, 102, 0.6);
         }
         .btn-red:hover {
-            background: linear-gradient(135deg, #00cc44, #009933);
-            box-shadow: 0 0 20px #00cc44, 0 0 35px rgba(25,248,0,1);
-            transform: translateY(-3px);
+            background-position: right center;
+            transform: translateY(-4px) scale(1.01);
+            box-shadow: 0 0 28px #25D366, 0 0 18px rgba(37, 211, 102, 0.9);
         }
 
-        /* Tombol 2 - Biru */
+        /* Tombol 2 - Channel WA (gradasi teal gelap) */
         .btn-blue {
-            background: linear-gradient(135deg, #00cc44, #009933);
-            box-shadow: 0 0 10px rgba(25,248,0,1);
+            background: linear-gradient(105deg, #05463e, #128C7E, #1bd3b6);
+            background-size: 200% auto;
+            box-shadow: 0 0 14px rgba(18, 140, 126, 0.7);
         }
         .btn-blue:hover {
-            background: linear-gradient(135deg, #00cc44, #009933);
-            box-shadow: 0 0 20px #00cc44, 0 0 35px rgba(25,248,0,1);
-            transform: translateY(-3px);
+            background-position: right center;
+            transform: translateY(-4px) scale(1.01);
+            box-shadow: 0 0 28px #1bd3b6, 0 0 18px rgba(27, 211, 182, 0.8);
         }
 
-        /* Tombol 3 - Hijau */
+        /* Tombol 3 - Telegram Personal (biru electric) */
         .btn-green {
-            background: linear-gradient(135deg, #0066ff, #0044cc);
-            box-shadow: 0 0 10px rgba(9,35,255,0.5);
+            background: linear-gradient(105deg, #0055a4, #0088cc, #33aaff);
+            background-size: 200% auto;
+            box-shadow: 0 0 14px rgba(0, 136, 204, 0.7);
         }
         .btn-green:hover {
-            background: linear-gradient(135deg, #0066ff, #0044cc);
-            box-shadow: 0 0 20px #0066ff, 0 0 35px rgba(9,35,255,0.5);
-            transform: translateY(-3px);
+            background-position: right center;
+            transform: translateY(-4px) scale(1.01);
+            box-shadow: 0 0 28px #00a6ff, 0 0 20px rgba(0, 170, 255, 0.8);
         }
 
-        /* Tombol 4 - Ungu */
+        /* Tombol 4 - Telegram Channel (biru premium + sentuhan ungu gradasi) */
         .btn-purple {
-            background: linear-gradient(135deg, #0066ff, #0044cc);
-            box-shadow: 0 0 10px rgba(9,35,255,0.5);
+            background: linear-gradient(105deg, #1c5399, #2AABEE, #6fbfef);
+            background-size: 200% auto;
+            box-shadow: 0 0 14px rgba(42, 171, 238, 0.7);
         }
         .btn-purple:hover {
-            background: linear-gradient(135deg, #0066ff, #0044cc);
-            box-shadow: 0 0 20px #0066ff, 0 0 35px rgba(9,35,255,0.5);
-            transform: translateY(-3px);
+            background-position: right center;
+            transform: translateY(-4px) scale(1.01);
+            box-shadow: 0 0 28px #2AABEE, 0 0 22px rgba(42, 171, 238, 0.9);
         }
 
-        /* Efek garis cahaya putih yang melintas saat hover */
+        /* Efek garis cahaya super keren saat hover */
         .btn-google::before {
             content: '';
             position: absolute;
             top: 0;
             left: -100%;
-            width: 80%;
+            width: 70%;
             height: 100%;
             background: linear-gradient(90deg, 
                 transparent, 
-                rgba(255, 255, 255, 0.4), 
+                rgba(255, 255, 255, 0.35), 
                 transparent);
-            transform: skewX(-25deg);
-            transition: left 0.6s ease;
+            transform: skewX(-30deg);
+            transition: left 0.65s ease;
             pointer-events: none;
         }
 
@@ -163,29 +297,161 @@
 
         /* Efek klik */
         .btn-google:active {
-            transform: translateY(2px) scale(0.97);
+            transform: translateY(3px) scale(0.98);
             transition: 0.05s;
+        }
+
+        /* Animasi fade masuk */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(25px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Footer elegan */
+        .footer-note {
+            margin-top: 45px;
+            font-size: 0.75rem;
+            color: #ddd;
+            text-align: center;
+            border-top: 1px solid rgba(255, 100, 60, 0.4);
+            padding-top: 20px;
+            width: 100%;
+            backdrop-filter: blur(5px);
+            font-weight: 500;
+        }
+
+        .footer-note span {
+            color: #ff5e5e;
+            font-weight: 700;
+            text-shadow: 0 0 3px rgba(255,0,0,0.5);
+        }
+
+        /* Responsive touch */
+        @media (max-width: 550px) {
+            .linktree-container {
+                max-width: 94%;
+            }
+            h1 {
+                font-size: 2.3rem;
+                letter-spacing: 3px;
+            }
+            .profile-name {
+                font-size: 1.6rem;
+            }
+            .btn-text {
+                font-size: 1rem;
+                letter-spacing: 1px;
+            }
+            .btn-icon {
+                width: 30px;
+                height: 30px;
+            }
+            .btn-icon svg {
+                width: 24px;
+                height: 24px;
+            }
+            .avatar-wrapper {
+                width: 100px;
+                height: 100px;
+            }
+            .button-container {
+                gap: 16px;
+            }
+            .btn-google {
+                padding: 12px 20px;
+            }
+        }
+
+        @media (max-width: 420px) {
+            .btn-text {
+                font-size: 0.85rem;
+                white-space: normal;
+                line-height: 1.3;
+            }
+            .btn-icon svg {
+                width: 22px;
+                height: 22px;
+            }
+            h1 {
+                font-size: 1.9rem;
+            }
+        }
+
+        /* Memastikan tombol selalu rapi */
+        .btn-google {
+            text-decoration: none;
         }
     </style>
 </head>
 <body>
+    <div class="linktree-container">
+        <!-- Profil dengan icon.png (ikon sesuai file yang disediakan) -->
+        <div class="profile-section">
+            <div class="avatar-wrapper">
+                <!-- Menggunakan icon.png persis seperti permintaan -->
+                <img src="icon.png" alt="HANZZ Avatar" class="avatar-img" onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 100\'%3E%3Ccircle cx=\'50\' cy=\'50\' r=\'45\' fill=\'%23cc2222\'/%3E%3Ctext x=\'50\' y=\'67\' font-size=\'46\' text-anchor=\'middle\' fill=\'white\' font-weight=\'bold\'%3EH%3C/text%3E%3C/svg%3E';">
+            </div>
+            <div class="profile-name">HANZZ OFFICIAL</div>
+            <div class="profile-bio">BUY HERE👇</div>
+        </div>
 
-    <h1>HANZZ ORDER</h1>
+        <!-- Judul Neon Utama -->
+        <div class="brand-neon">
+            <h1>HANZZ ORDER</h1>
+        </div>
 
-    <div class="button-container">
-        <a href="https://wa.me/6283196463931?text=Bang+Order" class="btn-google btn-red">
-            <span class="btn-text">Contact Wa HANZZ📞</span>
-        </a>
-        <a href="https://whatsapp.com/channel/0029VbBunErGpLHUO67ZIW0Y" class="btn-google btn-blue">
-            <span class="btn-text">Join Saluran Wa</span>
-        </a>
-        <a href="https://t.me/HANZZXBUG" class="btn-google btn-green">
-            <span class="btn-text">Contact Tele HANZZ📞 </span>
-        </a>
-        <a href="https://t.me/HANZZOFC" class="btn-google btn-purple">
-            <span class="btn-text">Join Telegram Channel</span>
-        </a>
+        <!-- Tombol-tombol dengan ikon premium & layout lebih rapi (Semua ikon modern menggunakan SVG) -->
+        <div class="button-container">
+            <!-- 1. WhatsApp Contact (Nomor WA) -->
+            <a href="https://wa.me/6283196463931?text=Bang+Order" class="btn-google btn-red" target="_blank" rel="noopener noreferrer">
+                <span class="btn-icon">
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M19.077 4.928C17.191 3.041 14.683 2 12.006 2 6.798 2 2.553 6.245 2.55 11.453c0 1.674.438 3.31 1.267 4.742L2 22l5.947-1.558c1.386.756 2.955 1.155 4.556 1.155h.004c5.204 0 9.45-4.245 9.45-9.451 0-2.523-.982-4.895-2.764-6.677l-.116-.11v-.031zM12.006 20.361c-1.42 0-2.813-.382-4.012-1.101l-.288-.171-3.53.925.943-3.44-.188-.298c-.78-1.239-1.192-2.66-1.192-4.123 0-4.082 3.322-7.404 7.406-7.404 1.977 0 3.835.77 5.232 2.168 1.398 1.398 2.168 3.255 2.168 5.233 0 4.084-3.322 7.406-7.406 7.406h-.153zm4.058-5.545c-.223-.111-1.318-.65-1.522-.724-.204-.075-.352-.111-.5.111-.149.223-.575.725-.705.874-.13.148-.26.167-.483.056s-.945-.348-1.8-1.111c-.665-.592-1.114-1.324-1.244-1.548s-.013-.344.094-.456c.096-.099.223-.26.334-.39.111-.13.148-.222.223-.371.074-.149.037-.279-.019-.39-.056-.111-.5-1.205-.685-1.65-.18-.432-.364-.374-.5-.381h-.428c-.148 0-.388.056-.592.279s-.779.761-.779 1.855c0 1.094.796 2.15.907 2.299.111.149 1.567 2.392 3.796 3.354.53.229.944.366 1.267.468.532.169 1.016.145 1.399.088.427-.064 1.318-.539 1.503-1.058.186-.52.186-.965.13-1.058-.055-.093-.204-.148-.427-.259z"/>
+                    </svg>
+                </span>
+                <span class="btn-text">Contact Wa HANZZ 📞</span>
+            </a>
+
+            <!-- 2. Join Channel WhatsApp -->
+            <a href="https://whatsapp.com/channel/0029VbBunErGpLHUO67ZIW0Y" class="btn-google btn-blue" target="_blank" rel="noopener noreferrer">
+                <span class="btn-icon">
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M19.077 4.928C17.191 3.041 14.683 2 12.006 2 6.798 2 2.553 6.245 2.55 11.453c0 1.674.438 3.31 1.267 4.742L2 22l5.947-1.558c1.386.756 2.955 1.155 4.556 1.155h.004c5.204 0 9.45-4.245 9.45-9.451 0-2.523-.982-4.895-2.764-6.677l-.116-.11v-.031zM12.006 20.361c-1.42 0-2.813-.382-4.012-1.101l-.288-.171-3.53.925.943-3.44-.188-.298c-.78-1.239-1.192-2.66-1.192-4.123 0-4.082 3.322-7.404 7.406-7.404 1.977 0 3.835.77 5.232 2.168 1.398 1.398 2.168 3.255 2.168 5.233 0 4.084-3.322 7.406-7.406 7.406h-.153zm4.058-5.545c-.223-.111-1.318-.65-1.522-.724-.204-.075-.352-.111-.5.111-.149.223-.575.725-.705.874-.13.148-.26.167-.483.056s-.945-.348-1.8-1.111c-.665-.592-1.114-1.324-1.244-1.548s-.013-.344.094-.456c.096-.099.223-.26.334-.39.111-.13.148-.222.223-.371.074-.149.037-.279-.019-.39-.056-.111-.5-1.205-.685-1.65-.18-.432-.364-.374-.5-.381h-.428c-.148 0-.388.056-.592.279s-.779.761-.779 1.855c0 1.094.796 2.15.907 2.299.111.149 1.567 2.392 3.796 3.354.53.229.944.366 1.267.468.532.169 1.016.145 1.399.088.427-.064 1.318-.539 1.503-1.058.186-.52.186-.965.13-1.058-.055-.093-.204-.148-.427-.259z"/>
+                    </svg>
+                </span>
+                <span class="btn-text">Join Saluran Wa</span>
+            </a>
+
+            <!-- 3. Telegram Personal Contact -->
+            <a href="https://t.me/HANZZXBUG" class="btn-google btn-green" target="_blank" rel="noopener noreferrer">
+                <span class="btn-icon">
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.66-.35-1.02.22-1.61.15-.15 2.71-2.48 2.76-2.69.006-.03.01-.07-.02-.1-.03-.03-.09-.02-.14-.01-.07.02-1.17.74-3.31 2.19-.31.21-.59.31-.84.31-.28 0-.81-.16-1.2-.29-.47-.16-.85-.24-.82-.51.02-.21.36-.42.99-.64 3.82-1.66 6.36-2.75 7.63-3.28 3.63-1.52 4.38-1.78 4.87-1.79.11 0 .35.02.51.15.13.11.16.24.18.37.01.07.02.15.01.22z"/>
+                    </svg>
+                </span>
+                <span class="btn-text">Contact Tele HANZZ 📞</span>
+            </a>
+
+            <!-- 4. Telegram Channel -->
+            <a href="https://t.me/HANZZOFC" class="btn-google btn-purple" target="_blank" rel="noopener noreferrer">
+                <span class="btn-icon">
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.66-.35-1.02.22-1.61.15-.15 2.71-2.48 2.76-2.69.006-.03.01-.07-.02-.1-.03-.03-.09-.02-.14-.01-.07.02-1.17.74-3.31 2.19-.31.21-.59.31-.84.31-.28 0-.81-.16-1.2-.29-.47-.16-.85-.24-.82-.51.02-.21.36-.42.99-.64 3.82-1.66 6.36-2.75 7.63-3.28 3.63-1.52 4.38-1.78 4.87-1.79.11 0 .35.02.51.15.13.11.16.24.18.37.01.07.02.15.01.22z"/>
+                    </svg>
+                </span>
+                <span class="btn-text">Join Telegram Channel</span>
+            </a>
+        </div>
+
+        <div class="footer-note">
+            <span>HANZZ ORDER</span> • Dev by HANZZ
+        </div>
     </div>
-
 </body>
 </html>

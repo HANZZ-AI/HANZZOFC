@@ -4,393 +4,490 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>HANZZ PRODUCT</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        :root {
+            --red: #ff0000;
+            --red-dim: #cc0000;
+            --red-dark: #7a0000;
+            --red-glow: rgba(255, 0, 0, 0.35);
+            --bg: #050505;
+            --surface: rgba(15, 5, 5, 0.85);
+            --text: #f5e6e6;
+            --muted: #9a7070;
         }
 
-        body {
-            margin: 0;
-            padding: 20px;
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html, body {
+            min-height: 100vh;
+            background: var(--bg);
+            font-family: 'Rajdhani', sans-serif;
+            color: var(--text);
+            overflow-x: hidden;
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 2px,
+                rgba(0,0,0,0.12) 2px,
+                rgba(0,0,0,0.12) 4px
+            );
+            pointer-events: none;
+            z-index: 999;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+            background-size: 200px 200px;
+            opacity: 0.5;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .blob {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(80px);
+            pointer-events: none;
+            z-index: 0;
+        }
+        .blob-1 {
+            width: 55vmax; height: 55vmax;
+            background: radial-gradient(circle, rgba(180,0,0,0.18), transparent 65%);
+            top: -25vmax; right: -20vmax;
+            animation: blobFloat1 20s ease-in-out infinite alternate;
+        }
+        .blob-2 {
+            width: 45vmax; height: 45vmax;
+            background: radial-gradient(circle, rgba(100,0,0,0.12), transparent 65%);
+            bottom: -20vmax; left: -15vmax;
+            animation: blobFloat2 15s ease-in-out infinite alternate;
+        }
+        @keyframes blobFloat1 { from { transform: translate(0,0) scale(1); } to { transform: translate(4%, 6%) scale(1.08); } }
+        @keyframes blobFloat2 { from { transform: translate(0,0); } to { transform: translate(-5%, -4%) scale(1.12); } }
+
+        .wrapper {
+            position: relative;
+            z-index: 1;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            min-height: 100vh;
-            background: radial-gradient(circle at 20% 30%, #0a0a0a, #000000);
-            font-family: 'Poppins', 'Segoe UI', 'Tahoma', system-ui, -apple-system, sans-serif;
-            color: white;
-            position: relative;
-            overflow-x: hidden;
+            padding: 48px 20px 80px;
+            gap: 0;
         }
 
-        /* efek partikel latar belakang dinamis (tanpa mengganggu logika) */
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: 
-                repeating-linear-gradient(transparent 0px, transparent 29px, rgba(255,0,0,0.03) 30px),
-                radial-gradient(circle at 40% 50%, rgba(255,0,0,0.05) 0%, transparent 50%);
-            pointer-events: none;
-            z-index: 0;
-        }
-
-        /* Efek Glow mengambang untuk atmosfer */
-        .glow-orb {
-            position: fixed;
-            width: 60vmax;
-            height: 60vmax;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(255,0,0,0.15), transparent 70%);
-            top: -20vmax;
-            right: -20vmax;
-            z-index: 0;
-            pointer-events: none;
-            animation: floatGlow 18s infinite alternate ease-in-out;
-        }
-
-        .glow-orb2 {
-            position: fixed;
-            width: 50vmax;
-            height: 50vmax;
-            background: radial-gradient(circle, rgba(200,0,0,0.1), transparent 70%);
-            bottom: -15vmax;
-            left: -15vmax;
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 0;
-            animation: floatGlow2 14s infinite alternate;
-        }
-
-        @keyframes floatGlow {
-            0% { transform: translate(0, 0) scale(1); opacity: 0.5; }
-            100% { transform: translate(5%, 5%) scale(1.1); opacity: 0.8; }
-        }
-
-        @keyframes floatGlow2 {
-            0% { transform: translate(0, 0) scale(1); opacity: 0.4; }
-            100% { transform: translate(-3%, -3%) scale(1.2); opacity: 0.7; }
-        }
-
-        /* Judul utama dengan efek neon merah + animasi goyang halus */
-        h1 {
-            color: #ff0000;
-            font-size: clamp(2.2rem, 8vw, 4.8rem);
+        .top-badge {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.7rem;
+            letter-spacing: 4px;
+            color: var(--red);
             text-transform: uppercase;
-            text-shadow: 0 0 8px #ff0000, 0 0 18px #ff3300, 0 0 35px #aa0000;
-            margin-bottom: 25px;
+            opacity: 0;
+            animation: fadeUp 0.5s 0.1s forwards ease-out;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .top-badge::before, .top-badge::after {
+            content: '';
+            display: block;
+            width: 28px;
+            height: 1px;
+            background: var(--red);
+            opacity: 0.6;
+        }
+
+        h1 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(3.5rem, 14vw, 8rem);
+            letter-spacing: 10px;
+            line-height: 0.9;
+            text-align: center;
+            color: transparent;
+            background: linear-gradient(180deg, #ffffff 0%, #ff4444 55%, #880000 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            text-shadow: none;
+            filter: drop-shadow(0 0 30px rgba(255,0,0,0.5));
+            opacity: 0;
+            animation: fadeUp 0.6s 0.2s forwards ease-out, titleGlow 3s 0.8s infinite ease-in-out;
+            margin-bottom: 4px;
+        }
+        @keyframes titleGlow {
+            0%, 100% { filter: drop-shadow(0 0 20px rgba(255,0,0,0.4)); }
+            50%       { filter: drop-shadow(0 0 45px rgba(255,0,0,0.75)); }
+        }
+
+        .subtitle {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.72rem;
             letter-spacing: 6px;
-            font-weight: 800;
+            color: var(--muted);
+            text-transform: uppercase;
+            text-align: center;
+            margin-bottom: 48px;
+            opacity: 0;
+            animation: fadeUp 0.6s 0.3s forwards ease-out;
+        }
+
+        .card {
+            width: 100%;
+            max-width: 480px;
+            background: var(--surface);
+            border-radius: 4px;
             position: relative;
-            z-index: 2;
-            backdrop-filter: blur(2px);
-            animation: titlePulse 2.2s infinite ease-in-out;
-            transition: all 0.2s;
+            opacity: 0;
+            animation: fadeUp 0.7s 0.4s forwards ease-out;
+            overflow: hidden;
         }
 
-        @keyframes titlePulse {
-            0% { text-shadow: 0 0 5px #ff0000, 0 0 12px #cc0000; opacity: 0.95; letter-spacing: 6px; }
-            50% { text-shadow: 0 0 16px #ff4d4d, 0 0 28px #ff0000, 0 0 40px #990000; opacity: 1; letter-spacing: 7px; }
-            100% { text-shadow: 0 0 5px #ff0000, 0 0 12px #cc0000; opacity: 0.95; letter-spacing: 6px; }
-        }
-
-        /* Kotak Menu Premium - Border RGB Merah lebih hidup dan efek glassmorphism */
-        .menu-box {
-            background: rgba(12, 12, 16, 0.75);
-            backdrop-filter: blur(8px);
-            padding: 28px 48px;
-            border-radius: 32px;
-            border: 2.5px solid transparent;
-            background-clip: padding-box;
-            position: relative;
-            z-index: 2;
-            text-align: left;
-            min-width: 280px;
-            box-shadow: 0 25px 40px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 0, 0, 0.2) inset;
-            transition: transform 0.25s ease, box-shadow 0.3s;
-        }
-
-        .menu-box:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 30px 50px rgba(255, 0, 0, 0.25);
-        }
-
-        /* Animasi border RGB merah bergerak (border-image asli dikembangkan) */
-        .menu-box::before {
+        .card::before {
             content: '';
             position: absolute;
-            top: -3px;
-            left: -3px;
-            right: -3px;
-            bottom: -3px;
-            background: linear-gradient(95deg, #ff0000, #cc2200, #ff4d4d, #b30000, #ff0000);
-            background-size: 300% 300%;
-            border-radius: 34px;
+            inset: -2px;
+            border-radius: 6px;
+            background: conic-gradient(from var(--angle, 0deg), #700000, #ff0000, #ff6060, #ff0000, #700000);
             z-index: -1;
-            animation: rgbBorderMove 3s linear infinite alternate;
-            filter: blur(2px);
-            opacity: 0.9;
+            animation: spinBorder 4s linear infinite;
+        }
+        @property --angle {
+            syntax: '<angle>';
+            initial-value: 0deg;
+            inherits: false;
+        }
+        @keyframes spinBorder { to { --angle: 360deg; } }
+
+        .card-inner {
+            background: linear-gradient(160deg, #0e0303 0%, #0a0000 100%);
+            border-radius: 3px;
+            overflow: hidden;
         }
 
-        /* Efek tambahan border glow dinamis */
-        @keyframes rgbBorderMove {
-            0% { background-position: 0% 50%; opacity: 0.7; }
-            50% { background-position: 100% 50%; opacity: 1; }
-            100% { background-position: 0% 50%; opacity: 0.7; }
-        }
-
-        /* Isi menu dengan styling typografi premium */
-        .menu-box p {
-            margin: 0;
-            font-size: 1.2rem;
-            line-height: 2;
-            color: #f0f0f0;
-            font-weight: 500;
-            letter-spacing: 0.3px;
+        .card-header {
+            padding: 22px 30px 18px;
+            border-bottom: 1px solid rgba(255,0,0,0.15);
             display: flex;
-            align-items: baseline;
-            gap: 10px;
-            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(255,0,0,0.04);
         }
-
-        .menu-title {
-            font-weight: 800;
-            font-size: 1.6rem;
-            text-decoration: none;
-            margin-bottom: 18px !important;
+        .card-header-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.3rem;
+            letter-spacing: 5px;
+            color: var(--red);
             display: flex;
             align-items: center;
             gap: 10px;
-            border-bottom: 2px solid rgba(255, 50, 50, 0.5);
-            padding-bottom: 8px;
-            letter-spacing: 1px;
-            color: #ff7070;
+        }
+        .card-header-title .icon {
+            width: 8px; height: 8px;
+            background: var(--red);
+            border-radius: 50%;
+            box-shadow: 0 0 8px var(--red);
+            animation: pulse 1.5s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; box-shadow: 0 0 6px var(--red); }
+            50%       { opacity: 0.4; box-shadow: 0 0 2px var(--red); }
+        }
+        .card-header-tag {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.65rem;
+            letter-spacing: 2px;
+            color: var(--red-dim);
+            background: rgba(255,0,0,0.08);
+            border: 1px solid rgba(255,0,0,0.2);
+            padding: 3px 10px;
+            border-radius: 2px;
         }
 
-        .menu-title::before {
-            content: "✦";
-            font-size: 1.3rem;
-            color: #ff3333;
-            text-shadow: 0 0 4px red;
-        }
+        .menu-list { padding: 10px 0; }
 
-        /* Styling untuk setiap menu item */
         .menu-item {
             display: flex;
+            align-items: center;
             justify-content: space-between;
-            border-bottom: 1px dashed rgba(255, 80, 80, 0.3);
-            padding: 6px 0;
-            transition: all 0.2s;
+            padding: 14px 30px;
+            gap: 16px;
+            transition: background 0.2s, transform 0.2s;
+            cursor: default;
+            border-bottom: 1px solid rgba(255, 30, 30, 0.07);
+            position: relative;
+        }
+        .menu-item:last-child { border-bottom: none; }
+        .menu-item:hover { background: rgba(255, 0, 0, 0.06); }
+        .menu-item:hover .item-bar { width: 100%; }
+        .item-bar {
+            position: absolute;
+            left: 0; bottom: 0;
+            height: 1px;
+            width: 0;
+            background: linear-gradient(90deg, var(--red), transparent);
+            transition: width 0.4s ease;
         }
 
-        .menu-item:hover {
-            border-bottom-color: #ff4d4d;
-            transform: translateX(5px);
-            text-shadow: 0 0 2px rgba(255,0,0,0.5);
+        .item-left { display: flex; align-items: center; gap: 14px; }
+        .item-num {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.65rem;
+            color: var(--red-dark);
+            letter-spacing: 1px;
+            min-width: 22px;
         }
-
-        .menu-name {
-            font-weight: 600;
+        .item-icon {
+            width: 34px; height: 34px;
+            background: rgba(255,0,0,0.1);
+            border: 1px solid rgba(255,0,0,0.2);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            flex-shrink: 0;
+            transition: background 0.2s;
         }
-
-        .menu-price {
-            color: #ff8080;
+        .menu-item:hover .item-icon { background: rgba(255,0,0,0.2); }
+        .item-name {
+            font-size: 1.05rem;
             font-weight: 700;
-            font-family: monospace;
-            font-size: 1.2rem;
+            letter-spacing: 1.5px;
+            color: #f0e0e0;
+            text-transform: uppercase;
+        }
+        .item-desc {
+            font-size: 0.72rem;
+            color: var(--muted);
+            letter-spacing: 0.5px;
+            margin-top: 1px;
+            font-weight: 400;
         }
 
-        /* Tombol Buy yang lebih dramatis */
+        .item-right { text-align: right; flex-shrink: 0; }
+        .item-price {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 1.05rem;
+            color: #ff6060;
+            letter-spacing: 1px;
+        }
+        .item-currency {
+            font-size: 0.6rem;
+            color: var(--muted);
+            letter-spacing: 2px;
+            margin-top: 2px;
+        }
+
+        .card-footer {
+            padding: 20px 30px;
+            background: rgba(0,0,0,0.3);
+            border-top: 1px solid rgba(255,0,0,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+        }
+        .footer-note {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.6rem;
+            color: var(--muted);
+            letter-spacing: 1px;
+            line-height: 1.6;
+        }
+        .footer-note span { color: rgba(255,0,0,0.6); }
+
         .btn-buy {
-            margin-top: 40px;
-            padding: 14px 56px;
-            background: linear-gradient(135deg, #ff0000, #b10000);
-            color: white;
-            text-decoration: none;
-            font-weight: bold;
-            text-transform: uppercase;
-            border: none;
-            border-radius: 60px;
-            cursor: pointer;
             display: inline-flex;
             align-items: center;
-            gap: 12px;
-            font-size: 1.2rem;
-            letter-spacing: 2px;
-            transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            gap: 10px;
+            padding: 13px 32px;
+            background: linear-gradient(135deg, #cc0000 0%, #800000 100%);
+            color: #fff;
+            text-decoration: none;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.15rem;
+            letter-spacing: 4px;
+            border-radius: 3px;
             position: relative;
-            z-index: 2;
-            box-shadow: 0 8px 20px rgba(180, 0, 0, 0.5), 0 0 0 1px rgba(255,255,200,0.3) inset;
-            backdrop-filter: blur(2px);
+            overflow: hidden;
+            transition: transform 0.2s, box-shadow 0.3s;
+            box-shadow: 0 4px 20px rgba(180,0,0,0.5);
+            white-space: nowrap;
         }
-
-        .btn-buy::after {
-            content: "🛒";
-            font-size: 1.2rem;
+        .btn-buy::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(255,255,255,0.12), transparent);
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+        .btn-buy:hover::before { opacity: 1; }
+        .btn-buy:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(255,0,0,0.6);
+        }
+        .btn-buy:active { transform: scale(0.97); }
+        .btn-arrow {
+            font-size: 0.9rem;
             transition: transform 0.2s;
         }
+        .btn-buy:hover .btn-arrow { transform: translateX(4px); }
 
-        .btn-buy:hover {
-            background: linear-gradient(135deg, #ff3333, #cc0000);
-            transform: scale(1.05);
-            box-shadow: 0 12px 28px rgba(255, 0, 0, 0.7), 0 0 15px rgba(255, 80, 80, 0.8);
+        .stamp {
+            margin-top: 36px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            opacity: 0;
+            animation: fadeUp 0.6s 0.65s forwards ease-out;
+        }
+        .stamp-line { width: 40px; height: 1px; background: rgba(255,0,0,0.2); }
+        .stamp-text {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.6rem;
             letter-spacing: 3px;
+            color: rgba(255,80,80,0.3);
+            text-transform: uppercase;
         }
 
-        .btn-buy:hover::after {
-            transform: translateX(6px) scale(1.1);
-        }
-
-        /* Efek angka harga kecil dengan animasi angka interaktif */
-        .price-badge {
-            background: #1a0000;
-            padding: 2px 8px;
-            border-radius: 30px;
-            font-size: 0.9rem;
-            margin-left: 8px;
-            border-left: 2px solid #ff3a3a;
-        }
-
-        /* Responsive dan sentuhan modern */
-        @media (max-width: 550px) {
-            .menu-box {
-                padding: 20px 28px;
-                min-width: 260px;
-            }
-            .menu-box p {
-                font-size: 1rem;
-                line-height: 1.8;
-            }
-            .menu-title {
-                font-size: 1.3rem;
-            }
-            .btn-buy {
-                padding: 12px 40px;
-                font-size: 1rem;
-            }
-        }
-
-        /* elemen tambahan: tooltip harga (opsional) tetap ringan */
         footer {
             position: fixed;
-            bottom: 12px;
-            font-size: 0.7rem;
-            opacity: 0.5;
+            bottom: 14px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.6rem;
+            letter-spacing: 3px;
+            color: rgba(255,80,80,0.25);
             z-index: 2;
-            color: #aaa;
-            font-family: monospace;
             pointer-events: none;
+            white-space: nowrap;
         }
 
-        /* Animasi fade-in untuk konten utama */
-        h1, .menu-box, .btn-buy {
-            animation: fadeSlideUp 0.6s ease-out forwards;
-            opacity: 0;
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(24px); }
+            to   { opacity: 1; transform: translateY(0); }
         }
-        h1 { animation-delay: 0.1s; }
-        .menu-box { animation-delay: 0.2s; }
-        .btn-buy { animation-delay: 0.4s; }
 
-        @keyframes fadeSlideUp {
-            from {
-                opacity: 0;
-                transform: translateY(28px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        @media (max-width: 520px) {
+            h1 { letter-spacing: 6px; }
+            .card-header, .menu-item, .card-footer { padding-left: 20px; padding-right: 20px; }
+            .item-desc { display: none; }
+            .card-footer { flex-direction: column; align-items: stretch; }
+            .btn-buy { justify-content: center; }
         }
     </style>
 </head>
 <body>
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
 
-    <div class="glow-orb"></div>
-    <div class="glow-orb2"></div>
+    <div class="wrapper">
+        <div class="top-badge">HANZZ OFFICIAL</div>
 
-    <h1>HANZZ PRODUCT</h1>
+        <h1>HANZZ<br>PRODUCT</h1>
+        <p class="subtitle">Welcome!!</p>
 
-    <div class="menu-box">
-        <p class="menu-title">✦ LIST MENU ✦</p>
-        <div class="menu-item">
-            <span class="menu-name">Jasbug</span>
-            <span class="menu-price">2k <span class="price-badge">IDR</span></span>
+        <div class="card">
+            <div class="card-inner">
+                <div class="card-header">
+                    <div class="card-header-title">
+                        <span class="icon"></span>
+                        LIST MENU
+                    </div>
+                    <div class="card-header-tag">3 PRODUK</div>
+                </div>
+
+                <div class="menu-list">
+                    <div class="menu-item">
+                        <div class="item-left">
+                            <span class="item-num">01</span>
+                            <div>
+                                <div class="item-name">Jasbug</div>
+                                <div class="item-desc">Produk Digital</div>
+                            </div>
+                        </div>
+                        <div class="item-right">
+                            <div class="item-price">2K</div>
+                            <div class="item-currency">IDR</div>
+                        </div>
+                        <div class="item-bar"></div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-left">
+                            <span class="item-num">02</span>
+                            <div>
+                                <div class="item-name">Jasa Create Link Phising</div>
+                                <div class="item-desc">Produk Digital</div>
+                            </div>
+                        </div>
+                        <div class="item-right">
+                            <div class="item-price">2K – 5K</div>
+                            <div class="item-currency">IDR</div>
+                        </div>
+                        <div class="item-bar"></div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-left">
+                            <span class="item-num">03</span>
+                            <div>
+                                <div class="item-name">Apk Bug Wa:VOID ENGINE</div>
+                                <div class="item-desc">Produk Digital</div>
+                            </div>
+                        </div>
+                        <div class="item-right">
+                            <div class="item-price">5K – 100K</div>
+                            <div class="item-currency">IDR</div>
+                        </div>
+                        <div class="item-bar"></div>
+                    </div>
+                </div>
+
+                <div class="card-footer">
+                    <div class="footer-note">
+                        <span>●</span> 100% Terpercaya<br>
+                        <span>●</span> Hubungi No Wa Customer HANZZ Jika Ada Kendala<br>
+                        <span>●</span> No Wa Customer HANZZ: 088980574483
+                    </div>
+                    <a href="index3.html" class="btn-buy">
+                        BUY NOW
+                        <span class="btn-arrow">→</span>
+                    </a>
+                </div>
+            </div>
         </div>
-        <div class="menu-item">
-            <span class="menu-name">Jasa Create Link Phising</span>
-            <span class="menu-price">2k - 5k<span class="price-badge">IDR</span></span>
+
+        <div class="stamp">
+            <div class="stamp-line"></div>
+            <div class="stamp-text">Selamat Membeli</div>
+            <div class="stamp-line"></div>
         </div>
-        <div class="menu-item">
-            <span class="menu-name">Apk Bug Wa:Void Engine</span>
-            <span class="menu-price">5k - 100k<span class="price-badge">IDR</span></span>
-        </div>
-        <!-- struktur tetap mempertahankan 3 menu asli dengan harga persis seperti aslinya -->
     </div>
 
-    <!-- Tombol buy menuju index3.html, seperti aslinya -->
-    <a href="index3.html" class="btn-buy">Buy</a>
-    
-    <footer>Dev By HANZZ</footer>
+    <footer>DEV BY HANZZ</footer>
 
-    <!-- sedikit skrip tambahan agar interaksi lebih hidup (TIDAK mengubah logika asli; hanya visual feedback) -->
     <script>
-        (function() {
-            // Menambahkan efek klik pada tombol buy untuk memberi notif ringan (opsional, tanpa merusak navigasi)
-            const buyBtn = document.querySelector('.btn-buy');
-            if (buyBtn) {
-                buyBtn.addEventListener('click', function(e) {
-                    // Tidak mencegah navigasi — tetap menuju index3.html
-                    // hanya menambahkan efek getar / feel good
-                    this.style.transform = 'scale(0.98)';
-                    setTimeout(() => {
-                        if (this) this.style.transform = '';
-                    }, 120);
-                    // console log hanya sentuhan (tidak mengganggu)
-                });
-            }
-
-            // Efek hover lebih halus pada menu box dan item
-            const menuItems = document.querySelectorAll('.menu-item');
-            menuItems.forEach(item => {
-                item.addEventListener('mouseenter', () => {
-                    const priceSpan = item.querySelector('.menu-price');
-                    if (priceSpan) {
-                        priceSpan.style.textShadow = '0 0 4px #ff8888';
-                    }
-                });
-                item.addEventListener('mouseleave', () => {
-                    const priceSpan = item.querySelector('.menu-price');
-                    if (priceSpan) {
-                        priceSpan.style.textShadow = 'none';
-                    }
-                });
+        const btn = document.querySelector('.btn-buy');
+        if (btn) {
+            btn.addEventListener('click', function() {
+                this.style.transform = 'scale(0.96)';
+                setTimeout(() => { if (this) this.style.transform = ''; }, 120);
             });
-
-            // Tambahan efek untuk judul HANZZ PRODUCT interaktif
-            const title = document.querySelector('h1');
-            if(title) {
-                title.addEventListener('mouseenter', () => {
-                    title.style.animation = 'none';
-                    title.style.transform = 'scale(1.02)';
-                    title.style.transition = '0.2s';
-                });
-                title.addEventListener('mouseleave', () => {
-                    title.style.transform = '';
-                    title.style.animation = 'titlePulse 2.2s infinite ease-in-out';
-                });
-            }
-
-            // Animasi border rgb pada .menu-box secara realtime (sudah ada di CSS)
-            // Untuk memastikan kode terlihat dan border tetap sesuai dengan keinginan awal: border RGB merah!
-            // Dan tidak mengubah fungsionalitas atau alur BUY menuju index3.html
-            console.log("Hanzz Product | Red Edition Active — all asli logic preserved");
-        })();
+        }
     </script>
 </body>
 </html>
