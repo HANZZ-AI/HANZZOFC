@@ -23,7 +23,7 @@
             background-color: #0a0a0a;
         }
 
-        /* Background dengan gambar ukuran 19:6 (background.png) - SAMA DENGAN LOGIKA SEBELUMNYA */
+        /* Background dengan gambar ukuran 19:6 (background.png) - tetap ada tapi opacity lebih stabil */
         body::before {
             content: "";
             position: fixed;
@@ -35,7 +35,7 @@
             background-size: cover;
             background-position: center center;
             background-repeat: no-repeat;
-            opacity: 0.75;
+            opacity: 0.7;
             z-index: -2;
         }
 
@@ -47,11 +47,11 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.65);
+            background: rgba(0, 0, 0, 0.7);
             z-index: -1;
         }
 
-        /* Container utama premium */
+        /* Container utama (lebih ringan, tanpa blur berlebihan) */
         .redeem-container {
             max-width: 560px;
             width: 100%;
@@ -60,198 +60,143 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            backdrop-filter: blur(2px);
-            animation: fadeInUp 0.7s ease-out;
+            animation: fadeInUp 0.4s ease-out; /* durasi lebih pendek */
         }
 
-        /* Judul Besar Merah Neon */
+        /* Judul Besar Merah Neon - tapi efek neon dikurangi untuk performa */
         .main-title {
             text-align: center;
-            margin-bottom: 40px;
+            margin-bottom: 30px;
         }
 
         h1 {
-            font-size: 3.2rem;
+            font-size: 3rem;
             font-weight: 900;
             text-transform: uppercase;
-            letter-spacing: 4px;
+            letter-spacing: 3px;
             color: #ff0000;
-            text-shadow: 
-                0 0 5px #ff0000,
-                0 0 10px #ff0000,
-                0 0 20px #ff0000,
-                0 0 40px #ff3300,
-                0 0 80px #ff3300;
-            animation: neonPulse 1.2s ease-in-out infinite alternate;
+            text-shadow: 0 0 5px #ff0000, 0 0 12px #ff3300;
             display: inline-block;
             background: rgba(0,0,0,0.3);
-            padding: 0 16px;
+            padding: 0 12px;
             border-radius: 20px;
         }
 
-        @keyframes neonPulse {
-            0% {
-                text-shadow: 
-                    0 0 2px #ff0000,
-                    0 0 5px #ff0000,
-                    0 0 10px #ff0000,
-                    0 0 20px #ff3300;
-                opacity: 0.95;
-            }
-            100% {
-                text-shadow: 
-                    0 0 8px #ff0000,
-                    0 0 18px #ff0000,
-                    0 0 35px #ff4444,
-                    0 0 70px #ff0000,
-                    0 0 110px #ff3300;
-                opacity: 1;
-            }
-        }
-
-        /* Box dengan border RGB merah */
+        /* Hanya satu level shadow, tanpa animasi neon berkelanjutan (hemat CPU) */
+        /* Box dengan border RGB merah, blur dikurangi */
         .redemption-box {
-            background: rgba(0, 0, 0, 0.7);
-            backdrop-filter: blur(12px);
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(6px); /* blur lebih rendah */
             border: 2px solid rgb(255, 0, 0);
             border-radius: 32px;
-            padding: 32px 28px;
+            padding: 28px 24px;
             width: 100%;
-            box-shadow: 0 0 30px rgba(255, 0, 0, 0.4), inset 0 0 10px rgba(255, 0, 0, 0.2);
-            transition: all 0.3s ease;
-        }
-
-        .redemption-box:hover {
-            border-color: rgb(255, 60, 30);
-            box-shadow: 0 0 45px rgba(255, 0, 0, 0.7);
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.4);
+            transition: all 0.2s ease;
         }
 
         .instruction {
             text-align: center;
             color: #ffaaaa;
             font-weight: 600;
-            margin-bottom: 24px;
+            margin-bottom: 20px;
             font-size: 1rem;
             letter-spacing: 0.5px;
             text-transform: uppercase;
-            background: rgba(255,0,0,0.2);
+            background: rgba(255,0,0,0.15);
             display: inline-block;
             width: 100%;
-            padding: 8px;
+            padding: 6px;
             border-radius: 60px;
         }
 
-        /* Input field premium */
+        /* Input field - lebih ringan tanpa transisi berat */
         .code-input {
             width: 100%;
-            padding: 16px 20px;
-            font-size: 1.3rem;
+            padding: 14px 20px;
+            font-size: 1.25rem;
             font-weight: 700;
             text-align: center;
-            letter-spacing: 3px;
+            letter-spacing: 2px;
             background: #111;
             border: 2px solid #ff3333;
             border-radius: 60px;
             color: #ff5555;
             font-family: monospace;
             outline: none;
-            transition: all 0.25s ease;
-            box-shadow: 0 0 8px rgba(255, 0, 0, 0.4);
+            box-shadow: 0 0 4px rgba(255, 0, 0, 0.3);
         }
 
         .code-input:focus {
             border-color: #ff6666;
-            box-shadow: 0 0 20px rgba(255, 0, 0, 0.8);
             background: #1a1a1a;
             color: #ff8888;
         }
 
-        /* Tombol verifikasi premium dengan efek sama seperti index3 */
+        /* Tombol verifikasi - lebih ringan, tanpa gradient bergerak (reduce lag) */
         .btn-verify {
             display: flex;
             align-items: center;
             justify-content: center;
             width: 100%;
-            margin-top: 28px;
-            padding: 14px 24px;
+            margin-top: 24px;
+            padding: 12px 20px;
             border: none;
             border-radius: 80px;
             text-decoration: none;
-            transition: all 0.35s cubic-bezier(0.2, 0.9, 0.4, 1.2);
+            transition: all 0.2s ease;
             position: relative;
-            overflow: hidden;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255,255,255,0.1) inset;
-            backdrop-filter: blur(4px);
-            gap: 12px;
             cursor: pointer;
-            background: linear-gradient(105deg, #9b1d1d, #cc0000, #ff3300);
-            background-size: 200% auto;
+            background: linear-gradient(105deg, #b81c1c, #e62300);
             font-size: 1.2rem;
             font-weight: 700;
             letter-spacing: 1.5px;
             text-transform: uppercase;
             color: white;
-        }
-
-        .btn-verify:hover {
-            background-position: right center;
-            transform: translateY(-4px) scale(1.01);
-            box-shadow: 0 0 28px #ff3300, 0 0 18px rgba(255, 51, 0, 0.9);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
         }
 
         .btn-verify:active {
-            transform: translateY(3px) scale(0.98);
-            transition: 0.05s;
+            transform: scale(0.98);
         }
 
-        .btn-verify::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 70%;
-            height: 100%;
-            background: linear-gradient(90deg, 
-                transparent, 
-                rgba(255, 255, 255, 0.35), 
-                transparent);
-            transform: skewX(-30deg);
-            transition: left 0.65s ease;
-            pointer-events: none;
-        }
-
-        .btn-verify:hover::before {
-            left: 150%;
+        /* Efek hover non-intensif */
+        .btn-verify:hover {
+            background: linear-gradient(105deg, #cc2222, #ff3a1a);
+            transform: translateY(-2px);
         }
 
         /* Pesan error / sukses */
         .message-area {
-            margin-top: 24px;
+            margin-top: 20px;
             text-align: center;
             font-weight: 600;
             font-size: 0.95rem;
-            padding: 12px;
+            padding: 10px;
             border-radius: 50px;
             background: rgba(0,0,0,0.6);
-            backdrop-filter: blur(4px);
-            transition: all 0.2s;
+            transition: all 0.15s;
         }
 
         .error-msg {
-            color: #ff8888;
-            text-shadow: 0 0 4px #ff0000;
+            color: #ffaaaa;
             border: 1px solid #ff6666;
         }
 
         .success-msg {
-            color: #88ff88;
-            text-shadow: 0 0 4px #00aa00;
+            color: #aaffaa;
             border: 1px solid #66ff66;
         }
 
-        /* Tombol kembali ke beranda (optional biar user bisa balik) */
+        /* Loading state */
+        .loading-msg {
+            color: #ffcc88;
+            border: 1px solid #ffaa55;
+        }
+
+        /* Tombol kembali ke beranda */
         .back-home {
-            margin-top: 35px;
+            margin-top: 30px;
             display: inline-block;
             text-align: center;
         }
@@ -262,29 +207,27 @@
             font-size: 0.85rem;
             border-bottom: 1px dashed #ff5555;
             padding-bottom: 4px;
-            transition: 0.2s;
+            transition: 0.1s;
         }
 
         .back-link:hover {
             color: #ff8888;
-            border-bottom-color: #ff8888;
         }
 
-        /* Footer */
         .footer-redeem {
-            margin-top: 40px;
+            margin-top: 30px;
             font-size: 0.7rem;
             color: #aaa;
             text-align: center;
             border-top: 1px solid rgba(255, 70, 40, 0.4);
-            padding-top: 18px;
+            padding-top: 16px;
             width: 100%;
         }
 
         @keyframes fadeInUp {
             from {
                 opacity: 0;
-                transform: translateY(25px);
+                transform: translateY(15px);
             }
             to {
                 opacity: 1;
@@ -292,6 +235,7 @@
             }
         }
 
+        /* Media queries responsive */
         @media (max-width: 550px) {
             .redeem-container {
                 max-width: 94%;
@@ -302,15 +246,14 @@
             }
             .code-input {
                 font-size: 1.1rem;
-                padding: 14px 16px;
-                letter-spacing: 2px;
+                padding: 12px 16px;
             }
             .btn-verify {
                 font-size: 1rem;
-                padding: 12px 18px;
+                padding: 10px 16px;
             }
             .redemption-box {
-                padding: 24px 18px;
+                padding: 20px 16px;
             }
         }
 
@@ -321,36 +264,33 @@
             .instruction {
                 font-size: 0.8rem;
             }
+            .code-input {
+                font-size: 1rem;
+            }
         }
     </style>
 </head>
 <body>
     <div class="redeem-container">
-        <!-- Tulisan besar merah neon HANZZ REDEM CODE -->
         <div class="main-title">
             <h1>HANZZ REDEEM CODE</h1>
         </div>
 
-        <!-- Box dengan border RGB merah -->
         <div class="redemption-box">
             <div class="instruction">
                 MASUKKAN REDEEM CODE
             </div>
-            <!-- Input untuk memasukan Redeem Code -->
-            <input type="text" id="redeemCodeInput" class="code-input" placeholder="Masukan Redeem Code" autocomplete="off" spellcheck="false">
+            <input type="text" id="redeemCodeInput" class="code-input" placeholder="Masukan Kode" autocomplete="off" spellcheck="false" enterkeyhint="done">
             
-            <!-- Tombol verifikasi -->
             <button id="verifyBtn" class="btn-verify">
                <span>CONFIRM</span>
             </button>
             
-            <!-- Tempat menampilkan pesan hasil validasi -->
             <div id="messageBox" class="message-area"></div>
         </div>
 
-        <!-- Link kembali ke halaman utama (opsional, memperbaiki navigasi) -->
         <div class="back-home">
-            <a href="index3.html" class="back-link">← Kembali ke HANZZ ORDER</a>
+            <a href="index3.html" class="back-link">← Kembali</a>
         </div>
 
         <div class="footer-redeem">
@@ -359,61 +299,180 @@
     </div>
 
     <script>
-        // Ambil element yang diperlukan
+        // =============== KONFIGURASI SheetDB API ===============
+        // GANTI URL_INI dengan endpoint JSON milik SheetDB kamu
+        // Format yang diharapkan: data berupa array of objects, kolom pertama berisi header (misal "Kode")
+        // Contoh struktur sheet:
+        // | Kode    |
+        // |---------|
+        // | QWERTY  |
+        // | HANZZ88 |
+        // 
+        // Endpoint SheetDB (pastikan publish to JSON aktif). Contoh URL:
+        // https://sheetdb.io/api/v1/xxxxxxxxxxxx
+        // ATAU jika menggunakan sheet.best / lainnya sesuaikan.
+        // 
+        // PENTING: Ganti dengan URL SheetDB asli milik Anda!
+        const SHEETDB_API_URL = "https://sheetdb.io/api/v1/cg2t995egf35d"; 
+        // Catatan: URL di atas adalah contoh dummy. Ganti dengan URL sheetdb Anda yang asli.
+        // Pastikan sheet memiliki kolom dengan judul "Kode" (case sensitive, bisa disesuaikan di kode)
+        
+        // Opsional: kita support juga fallback jika ingin pakai sheet.best atau json endpoint.
+        // Tapi skema tetap: cari baris di mana kolom 'Kode' memiliki nilai yang sama dengan input user.
+        
+        // -----------------------------------------------------------------
+        // Elemen DOM
         const inputField = document.getElementById('redeemCodeInput');
         const verifyButton = document.getElementById('verifyBtn');
         const messageBox = document.getElementById('messageBox');
-
-        // Fungsi untuk menampilkan pesan
-        function showMessage(text, isError = true) {
+        
+        // State untuk menandai sedang melakukan request (hindari spam)
+        let isProcessing = false;
+        
+        // Fungsi menampilkan pesan
+        function showMessage(text, type = 'error') {
             messageBox.textContent = text;
-            if (isError) {
+            if (type === 'error') {
                 messageBox.className = 'message-area error-msg';
-            } else {
+            } else if (type === 'success') {
                 messageBox.className = 'message-area success-msg';
+            } else if (type === 'loading') {
+                messageBox.className = 'message-area loading-msg';
             }
-            // Pesan akan hilang dengan sendirinya jika diperlukan (tapi tidak wajib, lebih baik tetap sampai next action)
-            // Tapi biar user nyaman jika ada error bisa hilang saat mulai getol
         }
-
-        // Fungsi untuk menghapus spasi dan membandingkan dengan code tetap "QWERTY" (case-sensitive besar kecil)
-        function validateAndRedeem() {
-            // Ambil nilai input, hapus spasi di awal & akhir
-            let enteredCode = inputField.value.trim();
-            
-            // Code yang benar adalah "QWERTY" (case-sensitive, huruf besar semua)
-            const validCode = "QWERTY";
-            
-            // Validasi: jika input kosong kasih tahu
-            if (enteredCode === "") {
-                showMessage("❌ Code Salah! Silahkan Coba Lagi", true);
+        
+        // Fungsi untuk mengambil data kode dari SheetDB dan validasi
+        async function validateAndRedeem() {
+            // Cegah spam klik selama proses berlangsung
+            if (isProcessing) {
+                showMessage("⏳ Sedang memproses, harap tunggu...", "loading");
                 return;
             }
             
-            // Bandingkan secara tepat (case-sensitive)
-            if (enteredCode === validCode) {
-                // Jika BENAR: arahkan ke WhatsApp dengan pesan spesifik
-                const waUrl = "https://wa.me/6283196463931?text=Bang+Hanzz+Mau+Klaim+Kode+Rendem+Code+QWERTY++🔥";
-                // Tampilkan pesan sukses sebentar lalu redirect (agar user merasa diarahkan)
-                showMessage("✅ Kode BENAR! ", false);
-                // Beri waktu sedikit biar user bisa melihat pesan sukses (200ms cukup)
-                setTimeout(() => {
-                    window.location.href = waUrl;
-                }, 400);
-            } else {
-                // Jika SALAH: muncul pesan error "Code Salah Silahkan Coba Lagi"
-                showMessage("❌ Code Salah! Silahkan Coba Lagi", true);
-                // Kosongkan input agar user bisa mengetik ulang dengan lebih mudah (opsional)
-                // Tapi jangan direset semua agar user bisa melihat perbedaan, biarkan tidak direset.
-                // Namun supaya nyaman kita kasih sedikit seleksi pada input
-                inputField.select();
+            // Ambil kode yang dimasukkan user, trim whitespace
+            let enteredCode = inputField.value.trim();
+            
+            if (enteredCode === "") {
+                showMessage("❌ Silakan masukkan kode terlebih dahulu!", "error");
+                inputField.focus();
+                return;
+            }
+            
+            // Mulai proses
+            isProcessing = true;
+            showMessage("🔍 Mengecek kode ke database...", "loading");
+            
+            try {
+                // Lakukan fetch ke SheetDB API
+                // Asumsi endpoint mengembalikan array of objects. Contoh: [{ "Kode": "QWERTY" }, { "Kode": "HANZZ88" }]
+                const response = await fetch(SHEETDB_API_URL);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: Gagal mengambil data dari server.`);
+                }
+                
+                const data = await response.json();
+                
+                // Validasi apakah data berbentuk array
+                if (!Array.isArray(data) || data.length === 0) {
+                    throw new Error("Data kosong atau format tidak sesuai. Hubungi admin.");
+                }
+                
+                // Cari kolom yang berisi key "Kode" (case insensitive di cek)
+                // Kita akan cari properti yang mirip dengan 'kode' (bisa 'Kode', 'kode', 'CODE')
+                let foundValidCode = false;
+                let matchedCodeValue = null;
+                
+                // Mapping fleksibel: cari properti yang mengandung kata 'kode' (case insensitive)
+                // Namun prioritas pertama cari key yang tepat "Kode"
+                let columnKey = null;
+                if (data.length > 0) {
+                    const firstRow = data[0];
+                    // cek apakah ada properti 'Kode' langsung
+                    if (firstRow.hasOwnProperty('Kode')) {
+                        columnKey = 'Kode';
+                    } else if (firstRow.hasOwnProperty('kode')) {
+                        columnKey = 'kode';
+                    } else if (firstRow.hasOwnProperty('CODE')) {
+                        columnKey = 'CODE';
+                    } else {
+                        // cari properti apapun yang mengandung kata 'kode' (insensitive)
+                        for (let key in firstRow) {
+                            if (key.toLowerCase().includes('kode') || key.toLowerCase().includes('code')) {
+                                columnKey = key;
+                                break;
+                            }
+                        }
+                    }
+                }
+                
+                // Jika tidak ditemukan kolom yang sesuai, kita tetap bisa memproses dengan asumsi bahwa data berbentuk nilai sederhana? 
+                // Tapi SheetDB selalu mengembalikan array of objects. Maka beri warning
+                if (!columnKey) {
+                    console.warn("Tidak ditemukan kolom bertipe kode, coba gunakan 'Kode' default.");
+                    columnKey = 'Kode'; // fallback
+                }
+                
+                // Lakukan pencarian loop
+                for (let row of data) {
+                    // Ambil nilai dari kolom yang sesuai
+                    let codeValue = row[columnKey];
+                    if (codeValue !== undefined && codeValue !== null) {
+                        // konversi ke string dan bandingkan secara case-sensitive (atau bisa case-insensitive? kita tetap sensitif sesuai permintaan user umumnya)
+                        // Tapi biasanya kode redeem bersifat sensitif, kita gunakan perbandingan exact (case-sensitive)
+                        if (codeValue.toString() === enteredCode) {
+                            foundValidCode = true;
+                            matchedCodeValue = codeValue.toString();
+                            break;
+                        }
+                    }
+                }
+                
+                if (foundValidCode) {
+                    // Kode valid, redirect ke WhatsApp dengan menyisipkan kode yang ada di Sheet
+                    // Format pesan: Bang Hanzz Mau Klaim Kode Redeem Code (KODE_DARI_SHEET) 🔥
+                    const waMessage = `Bang Hanzz Mau Klaim Kode Redeem Code ${matchedCodeValue} 🔥`;
+                    const waUrl = `https://wa.me/6283196463931?text=${encodeURIComponent(waMessage)}`;
+                    
+                    showMessage(`✅ Kode ${matchedCodeValue} SUCCESS`, "success");
+                    
+                    // timeout kecil biar terlihat sukses
+                    setTimeout(() => {
+                        window.location.href = waUrl;
+                    }, 400);
+                } else {
+                    // Kode tidak ditemukan di database SheetDB
+                    showMessage(`❌ Kode "${enteredCode}" tidak terdaftar! Silakan coba lagi.`, "error");
+                    inputField.select();
+                }
+                
+            } catch (error) {
+                console.error("Error saat memverifikasi ke SheetDB:", error);
+                showMessage(`⚠️ Gagal terhubung ke server: ${error.message}. Coba lagi nanti.`, "error");
+            } finally {
+                isProcessing = false;
             }
         }
         
-        // Event listener untuk tombol verify
+        // Fungsi untuk mengecek koneksi dan memvalidasi endpoint (optional, bisa dijalankan saat load)
+        async function testConnection() {
+            try {
+                const testResponse = await fetch(SHEETDB_API_URL, { method: 'HEAD', cache: 'no-cache' });
+                if (!testResponse.ok) {
+                    console.warn("SheetDB endpoint mungkin tidak reachable, periksa kembali URL");
+                    showMessage("⚠️ Koneksi ke database belum siap, coba lagi nanti.", "error");
+                } else {
+                    console.log("SheetDB connection OK");
+                }
+            } catch(e) {
+                console.warn("Test koneksi gagal", e);
+            }
+        }
+        
+        // Event listener tombol
         verifyButton.addEventListener('click', validateAndRedeem);
         
-        // Juga jika user menekan tombol "Enter" di dalam input field
+        // Event enter pada input field
         inputField.addEventListener('keypress', function(event) {
             if (event.key === 'Enter') {
                 event.preventDefault();
@@ -421,13 +480,49 @@
             }
         });
         
-        // Efek tambahan: fokus awal pada input
+        // Fokus awal
         setTimeout(() => {
             inputField.focus();
-        }, 100);
+        }, 80);
         
-        // Optional: memberikan efek sedikit notifikasi khusus jika input berubah warna
-        // Tidak mengubah logika bawaan.
+        // Optional: test koneksi saat load (tidak mengganggu user)
+        // testConnection(); // bisa diaktifkan jika ingin
+        
+        // Catatan penting untuk pengguna:
+        // Pastikan Anda mengganti SHEETDB_API_URL dengan URL SheetDB yang asli.
+        // Format sheet harus memiliki kolom dengan header "Kode" (atau 'kode') dan di bawahnya berisi kode-kode redeem.
+        // Contoh isi sheet:
+        // | Kode    |
+        // |---------|
+        // | QWERTY  |
+        // | HANZZ99 |
+        // | REDEEM1 |
+        // 
+        // Jika ada kolom lain tidak masalah, yang penting kolom kode ada.
+        // 
+        // SheetDB bisa didapat dari https://sheetdb.io/ dengan menghubungkan Google Sheet.
+        // Buat endpoint API, lalu masukkan URL di variabel SHEETDB_API_URL.
+        // 
+        // Jika menggunakan alternatif lain (misal sheetsu, sheet.best) silakan sesuaikan endpoint dan parsing data.
+        // Kode ini sudah fleksibel dengan pencarian properti.
     </script>
+    <!-- 
+        PENJELASAN PERBAIKAN:
+        1. Logika sekarang menggunakan SheetDB API untuk mengambil data kode dari Google Spreadsheet.
+        2. Prosesnya: saat user memasukkan kode, halaman akan fetch ke SheetDB endpoint, mencari apakah nilai di kolom 'Kode' (atau varian) cocok dengan input.
+        3. Jika cocok, redirect ke WhatsApp dengan pesan yang berisi kode asli dari sheet.
+        4. Semua animasi dan efek yang berat (seperti neon pulse infinite, gradient bergerak, blur besar) dikurangi/ dihapus agar performa di Android lebih lancar.
+        5. Tombol tidak memiliki pseudo-elemen yang berat, transisi lebih sederhana.
+        6. Backdrop-filter hanya blur(6px) dan tidak ada transisi kompleks.
+        7. Menambahkan state isProcessing untuk mencegah double request.
+        8. Penanganan error lebih baik.
+        
+        CARA SETUP:
+        - Buat Google Sheet dengan kolom A berisi "Kode" (baris 1) lalu di baris 2 seterusnya berisi kode redeem unik, misal QWERTY, ABC123, DLL.
+        - Publikasikan sheet ke SheetDB.io (daftar gratis) dan dapatkan endpoint JSON.
+        - Ganti variabel SHEETDB_API_URL dengan endpoint milikmu.
+        - Upload background.png dengan rasio 19:6 (atau sesuai).
+        - Selesai. User yang memasukkan kode yang cocok akan diarahkan ke WhatsApp dengan pesan mengandung kode tsb.
+    -->
 </body>
 </html>
