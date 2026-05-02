@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>HANZZ ADMIN - Kelola Redeem Code</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, 'Roboto', sans-serif;
+            padding: 28px 20px 40px;
+            position: relative;
+            background-color: #000000; /* background hitam solid */
+        }
+
+        /* Overlay gelap tipis untuk efek (opsional) */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, #111 0%, #000 100%);
+            opacity: 0.5;
+            z-index: -2;
+        }
+
+        /* Container utama */
+        .admin-container {
+            max-width: 800px;
+            width: 100%;
+            margin: 0 auto;
+            animation: fadeInUp 0.4s ease-out;
+        }
+
+        /* Judul */
+        .main-title {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: #ff0000;
+            text-shadow: 0 0 5px #ff0000, 0 0 12px #ff3300;
+            display: inline-block;
+            background: rgba(0,0,0,0.6);
+            padding: 0 16px;
+            border-radius: 20px;
+        }
+
+        .subtitle {
+            color: #ff8888;
+            text-align: center;
+            margin-top: 8px;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+        }
+
+        /* Box style sama seperti redeem */
+        .admin-box {
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(6px);
+            border: 2px solid rgb(255, 0, 0);
+            border-radius: 32px;
+            padding: 28px 24px;
+            width: 100%;
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.4);
+            margin-bottom: 28px;
+        }
+
+        .section-title {
+            color: #ff5555;
+            font-size: 1.3rem;
+            font-weight: bold;
+            border-left: 4px solid #ff3333;
+            padding-left: 12px;
+            margin-bottom: 20px;
+        }
+
+        /* Input grup */
+        .input-group {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .input-group input {
+            flex: 1;
+            padding: 14px 18px;
+            font-size: 1rem;
+            font-weight: 600;
+            background: #111;
+            border: 2px solid #ff3333;
+            border-radius: 60px;
+            color: #ff5555;
+            font-family: monospace;
+            outline: none;
+        }
+
+        .input-group input:focus {
+            border-color: #ff6666;
+            background: #1a1a1a;
+        }
+
+        /* Tombol */
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 60px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(105deg, #b81c1c, #e62300);
+            color: white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(105deg, #cc2222, #ff3a1a);
+            transform: translateY(-2px);
+        }
+
+        .btn-danger {
+            background: #2a0000;
+            border: 1px solid #ff4444;
+            color: #ff8888;
+        }
+
+        .btn-danger:hover {
+            background: #3a0000;
+            color: #ffaaaa;
+        }
+
+        .btn-sm {
+            padding: 6px 14px;
+            font-size: 0.75rem;
+        }
+
+        /* Tabel daftar kode */
+        .code-list {
+            margin-top: 20px;
+            max-height: 320px;
+            overflow-y: auto;
+        }
+
+        .code-table {
+            width: 100%;
+            border-collapse: collapse;
+            color: #ddd;
+        }
+
+        .code-table th, .code-table td {
+            padding: 12px 8px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 80, 80, 0.3);
+        }
+
+        .code-table th {
+            color: #ff6666;
+            font-weight: 700;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+        }
+
+        .code-table td {
+            font-family: monospace;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #ffaa88;
+        }
+
+        .delete-btn {
+            background: none;
+            border: none;
+            color: #ff5555;
+            cursor: pointer;
+            font-size: 1.2rem;
+            padding: 4px 10px;
+            border-radius: 30px;
+            transition: 0.15s;
+        }
+
+        .delete-btn:hover {
+            background: rgba(255, 0, 0, 0.2);
+            color: #ff8888;
+            transform: scale(1.05);
+        }
+
+        /* Pesan */
+        .message-area {
+            margin-top: 16px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 0.9rem;
+            padding: 10px;
+            border-radius: 50px;
+            background: rgba(0,0,0,0.6);
+        }
+
+        .error-msg {
+            color: #ffaaaa;
+            border: 1px solid #ff6666;
+        }
+
+        .success-msg {
+            color: #aaffaa;
+            border: 1px solid #66ff66;
+        }
+
+        .loading-msg {
+            color: #ffcc88;
+            border: 1px solid #ffaa55;
+        }
+
+        /* Tombol kembali */
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: #aaa;
+            text-decoration: none;
+            border-bottom: 1px dashed #ff5555;
+            padding-bottom: 4px;
+            transition: 0.1s;
+        }
+
+        .back-link:hover {
+            color: #ff8888;
+        }
+
+        .footer {
+            margin-top: 30px;
+            font-size: 0.7rem;
+            color: #555;
+            text-align: center;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(15px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .admin-container {
+                max-width: 96%;
+            }
+            h1 {
+                font-size: 1.8rem;
+            }
+            .input-group {
+                flex-direction: column;
+            }
+            .btn {
+                width: 100%;
+            }
+            .section-title {
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="admin-container">
+    <div class="main-title">
+        <h1>HANZZ ADMIN</h1>
+        <div class="subtitle">KELOLA REDEEM CODE</div>
+    </div>
+
+    <!-- TAMBAH KODE -->
+    <div class="admin-box">
+        <div class="section-title">➕ TAMBAH KODE</div>
+        <div class="input-group">
+            <input type="text" id="newCodeInput" placeholder="Masukkan Kode" autocomplete="off">
+            <button id="addCodeBtn" class="btn btn-primary">TAMBAHKAN</button>
+        </div>
+        <div id="addMessage" class="message-area"></div>
+    </div>
+
+    <!-- DAFTAR KODE + HAPUS -->
+    <div class="admin-box">
+        <div class="section-title">📋 DAFTAR KODE REDEEM</div>
+        <div id="codeListContainer" class="code-list">
+            <div style="text-align:center; color:#aaa; padding:20px;">⏳Loading...</div>
+        </div>
+        <div style="margin-top: 16px; text-align: right;">
+            <button id="refreshListBtn" class="btn btn-sm" style="background:#1a1a1a; color:#ff8888; border:1px solid #ff4444;">⟳ REFRESH</button>
+        </div>
+        <div id="listMessage" class="message-area"></div>
+    </div>
+
+    <div class="footer">
+        Dev by HANZZ
+    </div>
+</div>
+
+<script>
+    // ======================= KONFIGURASI =======================
+    // GANTI DENGAN ENDPOINT SHEETDB MILIK ANDA
+    const SHEETDB_API_URL = "https://sheetdb.io/api/v1/cg2t995egf35d"; // GANTI!
+    // Sheet harus memiliki kolom: "Kode" (Header baris pertama)
+    // Contoh isi:
+    // | Kode    |
+    // |---------|
+    // | QWERTY  |
+    // | HANZZ88 |
+    // ============================================================
+
+    // Helper untuk menampilkan pesan di area tertentu
+    function showMessage(elementId, text, type = 'error') {
+        const msgDiv = document.getElementById(elementId);
+        if (!msgDiv) return;
+        msgDiv.textContent = text;
+        if (type === 'error') {
+            msgDiv.className = 'message-area error-msg';
+        } else if (type === 'success') {
+            msgDiv.className = 'message-area success-msg';
+        } else if (type === 'loading') {
+            msgDiv.className = 'message-area loading-msg';
+        }
+        // Auto hilang setelah 3 detik untuk success/error (kecuali loading)
+        if (type !== 'loading') {
+            setTimeout(() => {
+                if (msgDiv) msgDiv.textContent = '';
+            }, 3000);
+        }
+    }
+
+    // ========== 1. AMBIL SEMUA KODE DARI SHEETDB ==========
+    async function fetchAllCodes() {
+        try {
+            const response = await fetch(SHEETDB_API_URL);
+            if (!response.ok) throw new Error(`HTTP ${response.status}`);
+            const data = await response.json();
+            if (!Array.isArray(data)) return [];
+            
+            // Cari kolom yang berisi 'Kode' (case insensitive)
+            let columnKey = null;
+            if (data.length > 0) {
+                const firstRow = data[0];
+                if (firstRow.hasOwnProperty('Kode')) columnKey = 'Kode';
+                else if (firstRow.hasOwnProperty('kode')) columnKey = 'kode';
+                else if (firstRow.hasOwnProperty('CODE')) columnKey = 'CODE';
+                else {
+                    for (let key in firstRow) {
+                        if (key.toLowerCase().includes('kode') || key.toLowerCase().includes('code')) {
+                            columnKey = key;
+                            break;
+                        }
+                    }
+                }
+            }
+            if (!columnKey) {
+                console.warn("Kolom Kode tidak ditemukan, gunakan 'Kode' default");
+                columnKey = 'Kode';
+            }
+            
+            // Ekstrak nilai kode
+            const codes = data.map(row => row[columnKey]).filter(val => val !== undefined && val !== null && val.toString().trim() !== "");
+            return codes.map(c => c.toString());
+        } catch (err) {
+            console.error("Fetch codes error:", err);
+            return [];
+        }
+    }
+
+    // ========== 2. TAMPILKAN DAFTAR KODE KE DALAM TABEL ==========
+    async function renderCodeList() {
+        const container = document.getElementById('codeListContainer');
+        if (!container) return;
+        
+        container.innerHTML = '<div style="text-align:center; color:#aaa; padding:20px;">⏳ Loading</div>';
+        
+        const codes = await fetchAllCodes();
+        
+        if (codes.length === 0) {
+            container.innerHTML = '<div style="text-align:center; color:#ff8888; padding:20px;">❌ Kode Kosong</div>'; 
+            return;
+        }
+        
+        // Buat tabel
+        let html = `
+            <table class="code-table">
+                <thead>
+                    <tr><th>No</th><th>Kode Redeem</th><th style="width:80px">Delete</th></tr>
+                </thead>
+                <tbody>
+        `;
+        codes.forEach((code, index) => {
+            html += `
+                <tr>
+                    <td>${index + 1}</td>
+                    <td>${escapeHtml(code)}</td>
+                    <td><button class="delete-btn" data-code="${escapeHtml(code)}">🗑</button></td>
+                </tr>
+            `;
+        });
+        html += `</tbody></table>`;
+        container.innerHTML = html;
+        
+        // Pasang event listener untuk tombol hapus
+        document.querySelectorAll('.delete-btn').forEach(btn => {
+            btn.addEventListener('click', async (e) => {
+                e.preventDefault();
+                const codeToDelete = btn.getAttribute('data-code');
+                if (codeToDelete) {
+                    await deleteCode(codeToDelete);
+                }
+            });
+        });
+    }
+    
+    // helper escape html
+    function escapeHtml(str) {
+        return str.replace(/[&<>]/g, function(m) {
+            if (m === '&') return '&amp;';
+            if (m === '<') return '&lt;';
+            if (m === '>') return '&gt;';
+            return m;
+        });
+    }
+    
+    // ========== 3. TAMBAH KODE BARU KE SHEETDB ==========
+    async function addNewCode(codeValue) {
+        if (!codeValue || codeValue.trim() === "") {
+            showMessage('addMessage', '⚠️ Kode tidak boleh kosong!', 'error');
+            return false;
+        }
+        
+        const trimmedCode = codeValue.trim().toUpperCase(); // biar konsisten, opsional
+        
+        // Cek apakah kode sudah ada
+        const existingCodes = await fetchAllCodes();
+        if (existingCodes.includes(trimmedCode)) {
+            showMessage('addMessage', `❌ Kode "${trimmedCode}" sudah terdaftar!`, 'error');
+            return false;
+        }
+        
+        showMessage('addMessage', 'Menambahkan kode...', 'loading');
+        
+        try {
+            // SheetDB API untuk menambah baris (POST)
+            // Data dikirim sebagai object dengan key 'Kode'
+            const payload = {
+                data: {
+                    "Kode": trimmedCode
+                }
+            };
+            
+            const response = await fetch(SHEETDB_API_URL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(payload)
+            });
+            
+            if (!response.ok) {
+                const errText = await response.text();
+                throw new Error(`Gagal menambah: ${response.status} - ${errText}`);
+            }
+            
+            const result = await response.json();
+            console.log("Add result:", result);
+            
+            showMessage('addMessage', `✅ Kode "${trimmedCode}" berhasil ditambahkan!`, 'success');
+            // Bersihkan input
+            document.getElementById('newCodeInput').value = '';
+            // Refresh daftar
+            await renderCodeList();
+            return true;
+            
+        } catch (err) {
+            console.error("Add code error:", err);
+            showMessage('addMessage', `❌ Gagal menambahkan: ${err.message}`, 'error');
+            return false;
+        }
+    }
+    
+    // ========== 4. HAPUS KODE BERDASARKAN NILAI ==========
+    // SheetDB menghapus baris berdasarkan kondisi (where column = value)
+    async function deleteCode(codeValue) {
+        if (!codeValue) return;
+        
+        if (!confirm(`Hapus kode "${codeValue}" secara permanen?`)) return;
+        
+        showMessage('listMessage', `Menghapus ${codeValue}...`, 'loading');
+        
+        try {
+            // Delete menggunakan query parameter ?sheet=... atau dengan method DELETE + kondisi
+            // Endpoint: https://sheetdb.io/api/v1/xxx/delete?sheet=Sheet1&Kode=QWERTY
+            // Atau menggunakan body dengan kondisi
+            const deleteUrl = `${SHEETDB_API_URL}/Kode/${encodeURIComponent(codeValue)}`;
+            // Metode alternatif: DELETE dengan parameter di path /Kode/:value
+            const response = await fetch(deleteUrl, {
+                method: 'DELETE'
+            });
+            
+            // Jika endpoint tidak support path param, coba metode lain
+            if (!response.ok && response.status !== 200) {
+                // Fallback: gunakan metode hapus dengan query parameter (khusus SheetDB)
+                const fallbackUrl = `${SHEETDB_API_URL}?sheet=Sheet1&Kode=${encodeURIComponent(codeValue)}`;
+                const fallbackRes = await fetch(fallbackUrl, { method: 'DELETE' });
+                if (!fallbackRes.ok) throw new Error(`Gagal hapus, status ${fallbackRes.status}`);
+            } else if (!response.ok) {
+                throw new Error(`Delete gagal: ${response.status}`);
+            }
+            
+            showMessage('listMessage', `✅ Kode "${codeValue}" berhasil dihapus!`, 'success');
+            await renderCodeList();
+        } catch (err) {
+            console.error("Delete error:", err);
+            showMessage('listMessage', `❌ Error menghapus: ${err.message}. Coba metode manual di sheet.`, 'error');
+        }
+    }
+    
+    // ========== 5. REFRESH MANUAL ==========
+    async function refreshList() {
+        showMessage('listMessage', 'Memperbarui daftar...', 'loading');
+        await renderCodeList();
+        showMessage('listMessage', '✅ Daftar dimuat', 'success');
+    }
+    
+    // ========== EVENT LISTENER & INIT ==========
+    document.getElementById('addCodeBtn')?.addEventListener('click', async () => {
+        const newCodeInput = document.getElementById('newCodeInput');
+        const code = newCodeInput.value;
+        await addNewCode(code);
+    });
+    
+    document.getElementById('refreshListBtn')?.addEventListener('click', refreshList);
+    
+    // Enter di input tambah
+    document.getElementById('newCodeInput')?.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            document.getElementById('addCodeBtn')?.click();
+        }
+    });
+    
+    // Load awal
+    renderCodeList().catch(err => {
+        console.error(err);
+        const container = document.getElementById('codeListContainer');
+        if (container) container.innerHTML = '<div style="color:#ff8888; text-align:center;">Gagal memuat data. Periksa URL SheetDB.</div>';
+    });
+    
+    // Catatan: Pastikan endpoint SheetDB sudah mendukung operasi POST dan DELETE.
+    // Jika menggunakan sheetdb.io, pastikan API key tidak diperlukan untuk public write, atau jika perlu autentikasi tambahkan header.
+    // Untuk keamanan, Anda bisa menambahkan proteksi sederhana (misal parameter rahasia) namun ini untuk demo.
+    // Jika ingin mode hanya baca, bagian hapus bisa menggunakan cara lain.
+    
+    /*  PANDUAN SETUP SHEETDB UNTUK ADMIN:
+        1. Buat sheet dengan kolom "Kode" (Header baris1).
+        2. Daftar di sheetdb.io dan hubungkan Google Sheet.
+        3. Dapatkan endpoint API.
+        4. GANTI SHEETDB_API_URL dengan endpoint tersebut, contoh: https://sheetdb.io/api/v1/xxxxxxxx
+        5. Pastikan sheet diizinkan untuk write (publik atau dengan API key). Untuk keperluan lokal, bisa enable "Allow write access" di dashboard sheetdb.
+        6. Hapus data menggunakan endpoint DELETE /Kode/:value membutuhkan dukungan sheetdb.
+        Jika DELETE tidak bekerja, alternatif: menggunakan Google Apps Script sebagai proxy, tapi kode ini sudah mendukung dua pola.
+    */
+</script>
+</body>
+</html>
