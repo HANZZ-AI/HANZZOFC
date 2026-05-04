@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Buy in web</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #0b0b0f;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+
+        /* Animated Gradient Background */
+        .animated-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(ellipse at 20% 30%, rgba(255, 40, 30, 0.15), transparent 50%),
+                        radial-gradient(ellipse at 85% 70%, rgba(255, 80, 40, 0.1), transparent 55%);
+            z-index: -2;
+        }
+
+        .animated-bg::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            top: -50%;
+            left: -50%;
+            background: repeating-linear-gradient(
+                45deg,
+                transparent,
+                transparent 40px,
+                rgba(255, 50, 30, 0.02) 40px,
+                rgba(255, 50, 30, 0.02) 80px
+            );
+            animation: bgMove 30s linear infinite;
+            pointer-events: none;
+        }
+
+        @keyframes bgMove {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(40px, 40px); }
+        }
+
+        /* Floating Particles */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+        }
+        .particle {
+            position: absolute;
+            background: rgba(255, 70, 50, 0.4);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: floatParticle linear infinite;
+        }
+        @keyframes floatParticle {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-20vh) rotate(360deg); opacity: 0; }
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1a1a1a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #ff4433;
+            border-radius: 10px;
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 32px 24px 80px;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* ========== HEADER SECTION ========== */
+        .hero-section {
+            text-align: center;
+            padding: 40px 0 60px;
+            position: relative;
+        }
+
+        .glow-text {
+            font-size: 0.7rem;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            color: #ff8877;
+            background: rgba(255, 68, 51, 0.15);
+            display: inline-block;
+            padding: 6px 20px;
+            border-radius: 40px;
+            margin-bottom: 24px;
+            backdrop-filter: blur(4px);
+        }
+
+        h1 {
+            font-size: clamp(3rem, 12vw, 5.8rem);
+            font-weight: 800;
+            line-height: 1.1;
+            background: linear-gradient(135deg, #ffffff 0%, #ffaa99 35%, #ff4433 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 20px;
+            letter-spacing: -0.02em;
+        }
+
+        .hero-desc {
+            font-size: 0.9rem;
+            color: #8a8a9a;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        /* ========== STATS BAR ========== */
+        .stats-bar {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin: 40px 0 60px;
+            flex-wrap: wrap;
+        }
+        .stat-item {
+            text-align: center;
+        }
+        .stat-number {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #ff6655;
+        }
+        .stat-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #6a6a7a;
+        }
+
+        /* ========== PRODUCT GRID ========== */
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 32px;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+        .section-header h2 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .section-header h2 i {
+            color: #ff5544;
+        }
+        .product-count {
+            background: rgba(255, 68, 51, 0.15);
+            padding: 6px 16px;
+            border-radius: 40px;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 28px;
+            margin-bottom: 40px;
+        }
+
+        .product-card {
+            background: rgba(18, 18, 25, 0.7);
+            backdrop-filter: blur(12px);
+            border-radius: 28px;
+            border: 1px solid rgba(255, 70, 50, 0.2);
+            transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.2);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 100, 80, 0.08), transparent);
+            transition: left 0.6s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(255, 100, 80, 0.5);
+            box-shadow: 0 20px 35px -15px rgba(255, 68, 51, 0.3);
+        }
+        .product-card:hover::after {
+            left: 100%;
+        }
+
+        .card-content {
+            padding: 28px 24px;
+        }
+
+        .card-badge {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            background: rgba(255, 68, 51, 0.2);
+            padding: 4px 12px;
+            border-radius: 30px;
+            font-size: 0.6rem;
+            font-weight: 600;
+            color: #ff8877;
+        }
+
+        .product-icon {
+            width: 65px;
+            height: 65px;
+            background: linear-gradient(145deg, rgba(255, 70, 50, 0.2), rgba(80, 20, 10, 0.2));
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 80, 60, 0.3);
+        }
+        .product-icon i {
+            font-size: 2rem;
+            color: #ff7a68;
+        }
+
+        .product-name {
+            font-size: 1.35rem;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .product-desc {
+            font-size: 0.7rem;
+            color: #ff8877;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+        }
+
+        .product-price {
+            display: flex;
+            align-items: baseline;
+            gap: 4px;
+            margin-bottom: 24px;
+        }
+        .price {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #ff7a68;
+        }
+        .currency {
+            font-size: 0.8rem;
+            color: #8a8a9a;
+        }
+
+        .btn-order {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(105deg, #a52222, #cc0000, #ee3300);
+            background-size: 200% auto;
+            border: none;
+            border-radius: 50px;
+            color: white;
+            font-weight: 700;
+            font-size: 0.85rem;
+            letter-spacing: 2px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .btn-order i {
+            transition: transform 0.2s;
+        }
+        .btn-order:hover {
+            background-position: right center;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(238, 51, 0, 0.5);
+        }
+        .btn-order:hover i {
+            transform: translateX(5px);
+        }
+
+        /* ========== MODAL PREMIUM ========== */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(20px);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .modal.active {
+            display: flex;
+            animation: modalEnter 0.35s ease;
+        }
+        @keyframes modalEnter {
+            from { opacity: 0; transform: scale(0.96); backdrop-filter: blur(0); }
+            to { opacity: 1; transform: scale(1); backdrop-filter: blur(20px); }
+        }
+
+        .modal-container {
+            max-width: 560px;
+            width: 100%;
+            max-height: 85vh;
+            overflow-y: auto;
+            background: #121218;
+            border-radius: 40px;
+            border: 1px solid rgba(255, 80, 60, 0.4);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.6);
+        }
+
+        /* Custom scroll modal */
+        .modal-container::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .modal-header {
+            padding: 24px 28px 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 80, 60, 0.2);
+            position: sticky;
+            top: 0;
+            background: #121218;
+            z-index: 10;
+        }
+        .modal-header h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .modal-header h3 i {
+            color: #ff6655;
+        }
+        .close-modal {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: rgba(255, 80, 60, 0.1);
+            border: none;
+            color: #ffaa99;
+            font-size: 1.3rem;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .close-modal:hover {
+            background: rgba(255, 80, 60, 0.3);
+            color: white;
+        }
+
+        .modal-body {
+            padding: 24px 28px 32px;
+        }
+
+        .input-field {
+            margin-bottom: 24px;
+        }
+        .input-field label {
+            display: block;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 8px;
+            color: #ffaa99;
+            font-weight: 600;
+        }
+        .input-field input,
+        .input-field select {
+            width: 100%;
+            padding: 14px 18px;
+            background: #1e1e26;
+            border: 1.5px solid #2a2a32;
+            border-radius: 24px;
+            color: white;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+            outline: none;
+        }
+        .input-field input:focus,
+        .input-field select:focus {
+            border-color: #ff5544;
+            box-shadow: 0 0 0 3px rgba(255, 85, 68, 0.2);
+        }
+
+        .price-preview {
+            background: linear-gradient(135deg, #1f0c0c, #120606);
+            border-radius: 24px;
+            padding: 16px;
+            text-align: center;
+            margin: 16px 0;
+            border: 1px solid rgba(255, 80, 60, 0.3);
+        }
+        .price-preview span {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #ff7766;
+        }
+
+        .qris-wrapper {
+            background: #0a0a0a;
+            border-radius: 28px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+            border: 1px solid rgba(255, 80, 60, 0.25);
+            display: none;
+        }
+        .qris-wrapper.show {
+            display: block;
+            animation: fadeIn 0.4s;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .qr-box {
+            background: white;
+            display: inline-block;
+            padding: 12px;
+            border-radius: 24px;
+            margin-bottom: 12px;
+        }
+        .qr-box img {
+            width: 150px;
+            aspect-ratio: 3/4;
+            object-fit: contain;
+        }
+        .btn-qr-download {
+            background: transparent;
+            border: 1px solid #ff6655;
+            padding: 8px 24px;
+            border-radius: 40px;
+            color: #ffaa99;
+            font-size: 0.7rem;
+            margin: 8px 0;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .btn-qr-download:hover {
+            background: #ff6655;
+            color: #111;
+        }
+
+        .upload-area {
+            margin-top: 16px;
+            padding: 16px;
+            border: 1px dashed #ff6655;
+            border-radius: 24px;
+            background: rgba(255, 80, 60, 0.03);
+        }
+        .upload-area label {
+            font-size: 0.75rem;
+            display: block;
+            margin-bottom: 8px;
+        }
+        .preview-image {
+            margin-top: 12px;
+        }
+        .preview-image img {
+            max-width: 80px;
+            border-radius: 16px;
+            border: 2px solid #ff7766;
+        }
+
+        .btn-submit-order {
+            width: 100%;
+            padding: 16px;
+            margin-top: 24px;
+            background: linear-gradient(105deg, #b81c1c, #e62300);
+            border: none;
+            border-radius: 60px;
+            color: white;
+            font-weight: 800;
+            font-size: 1rem;
+            letter-spacing: 2px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            cursor: pointer;
+            transition: all 0.25s;
+        }
+        .btn-submit-order:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(230, 35, 0, 0.5);
+        }
+
+        .error-text {
+            text-align: center;
+            color: #ff8877;
+            font-size: 0.7rem;
+            margin-top: 16px;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            margin-top: 60px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 80, 60, 0.1);
+            font-size: 0.65rem;
+            color: #6a6a7a;
+        }
+
+        @media (max-width: 680px) {
+            .container { padding: 20px 16px 60px; }
+            .card-content { padding: 20px; }
+            .modal-body { padding: 20px; }
+            .stats-bar { gap: 20px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="animated-bg"></div>
+    <div class="particles" id="particles"></div>
+
+    <div class="container">
+        <!-- Hero Section -->
+        <div class="hero-section">
+            <div class="glow-text">
+                <i class="fas fa-gem"></i> OFFICIAL STORE
+            </div>
+            <h1>HANZZ<br>PRODUCT</h1>
+            <p class="hero-desc">Present by HANZZ</p>
+        </div>
+
+        <!-- Stats Bar -->
+        <div class="stats-bar">
+            <div class="stat-item">
+                <div class="stat-number">7</div>
+                <div class="stat-label">PRODUK</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">100%</div>
+                <div class="stat-label">TERPERCAYA</div>
+            </div>
+         
+        <!-- Product Section -->
+        <div class="section-header">
+            <h2><i class="fas fa-crown"></i> Selamat Membeli</h2>
+            <div class="product-count"><i class="fas fa-box"></i> 7 Produk</div>
+        </div>
+
+        <div class="product-grid" id="productGrid"></div>
+
+        <div class="footer">
+            <i class="fas fa-shield-heart"></i> Dev by HANZZ &nbsp;|&nbsp;
+        </div>
+    </div>
+
+    <!-- Modal Order -->
+    <div id="orderModal" class="modal">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h3><i class="fas fa-shopping-cart"></i> Checkout</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="input-field">
+                    <label><i class="fas fa-user"></i> Nama</label>
+                    <input type="text" id="customerName" placeholder="Masukkan nama kamu">
+                </div>
+                <div class="input-field">
+                    <label><i class="fas fa-tag"></i> Produk</label>
+                    <select id="productSelect"></select>
+                </div>
+                <div class="price-preview">
+                    <span id="priceDisplay">-</span> IDR
+                </div>
+
+                <div id="qrisPanel" class="qris-wrapper">
+                    <div class="qr-box">
+                        <img src="qr.png" alt="QRIS HANZZ" id="qrisImg">
+                    </div>
+                    <button id="downloadQr" class="btn-qr-download"><i class="fas fa-download"></i> Download QRIS</button>
+                    
+                    <div class="upload-area">
+                        <label><i class="fas fa-camera"></i> Upload Bukti Transfer</label>
+                        <input type="file" id="paymentProof" accept="image/*" capture="environment">
+                        <div id="previewProof" class="preview-image"></div>
+                    </div>
+                </div>
+
+                <button id="submitOrder" class="btn-submit-order">
+                    <i class="fas fa-check-double"></i> Konfirmasi
+                </button>
+                <div id="formError" class="error-text"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Products Data
+        const products = [
+            { id: 1, name: "Jasbug", desc: "HANZZ PRODUCT", price: "3K", priceValue: 3000, icon: "fa-crown" },
+            { id: 2, name: "Jasa Create Link Phising", desc: "HANZZ PRODUCT", price: "5K", priceValue: 2000, icon: "fa-link" },
+            { id: 3, name: "Murband", desc: "HANZZ PRODUCT", price: "20K", priceValue: 20000, icon: "fa-lock" },
+            { id: 4, name: "Murbug", desc: "Exploit Kit", price: "10K", priceValue: 10000, icon: "fa-bug" },
+            { id: 5, name: "Apk Cek Band Wa", desc: "HANZZ PRODUCT", price: "5K", priceValue: 5000, icon: "fa-skull" },
+            { id: 6, name: "Apk Wa FC", desc: "WhatsApp Tools", price: "5K", priceValue: 5000, icon: "fa-message" },
+            { id: 7, name: "Apk Bug Wa:VOID ENGINE", desc: "HANZZ PRODUCT", price: "40K", priceValue: 10000, icon: "fa-skull" }
+        ];
+
+        // Render Products
+        function renderProducts() {
+            const grid = document.getElementById('productGrid');
+            grid.innerHTML = '';
+            products.forEach((prod, idx) => {
+                const card = document.createElement('div');
+                card.className = 'product-card';
+                card.innerHTML = `
+                    <div class="card-badge">HOT</div>
+                    <div class="card-content">
+                        <div class="product-icon">
+                            <i class="fas ${prod.icon}"></i>
+                        </div>
+                        <div class="product-name">${escapeHtml(prod.name)}</div>
+                        <div class="product-desc">${escapeHtml(prod.desc)}</div>
+                        <div class="product-price">
+                            <span class="price">${escapeHtml(prod.price)}</span>
+                            <span class="currency">IDR</span>
+                        </div>
+                        <button class="btn-order" data-idx="${idx}">
+                            Beli Sekarang <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+
+            document.querySelectorAll('.btn-order').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const idx = parseInt(btn.getAttribute('data-idx'));
+                    openModal(idx);
+                });
+            });
+        }
+
+        let currentProductIdx = null;
+
+        function openModal(productIdx) {
+            currentProductIdx = productIdx;
+            const product = products[productIdx];
+
+            // Reset form
+            document.getElementById('customerName').value = '';
+            document.getElementById('priceDisplay').innerHTML = product.price;
+            document.getElementById('formError').innerHTML = '';
+            document.getElementById('paymentProof').value = '';
+            document.getElementById('previewProof').innerHTML = '';
+
+            // Populate select
+            const select = document.getElementById('productSelect');
+            select.innerHTML = '<option value="">-- Pilih Produk --</option>';
+            products.forEach((p, i) => {
+                const opt = document.createElement('option');
+                opt.value = i;
+                opt.textContent = `${p.name} - ${p.price}`;
+                if (i === productIdx) opt.selected = true;
+                select.appendChild(opt);
+            });
+
+            select.onchange = (e) => {
+                const val = parseInt(e.target.value);
+                if (!isNaN(val) && products[val]) {
+                    currentProductIdx = val;
+                    document.getElementById('priceDisplay').innerHTML = products[val].price;
+                }
+            };
+
+            // Show QRIS panel
+            document.getElementById('qrisPanel').classList.add('show');
+            document.getElementById('orderModal').classList.add('active');
+        }
+
+        // Download QRIS
+        document.getElementById('downloadQr')?.addEventListener('click', () => {
+            const link = document.createElement('a');
+            link.href = 'qr.png';
+            link.download = 'QRIS_HANZZ.png';
+            link.click();
+        });
+
+        // Preview Bukti Transfer
+        document.getElementById('paymentProof')?.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            const previewDiv = document.getElementById('previewProof');
+            previewDiv.innerHTML = '';
+            if (file && file.type.startsWith('image/')) {
+                const reader = new FileReader();
+                reader.onload = (ev) => {
+                    const img = document.createElement('img');
+                    img.src = ev.target.result;
+                    previewDiv.appendChild(img);
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Submit Order
+        document.getElementById('submitOrder')?.addEventListener('click', () => {
+            const nama = document.getElementById('customerName').value.trim();
+            const selectProd = document.getElementById('productSelect');
+            const selectedIdx = parseInt(selectProd.value);
+            const fileProof = document.getElementById('paymentProof').files[0];
+
+            if (!nama) {
+                document.getElementById('formError').innerHTML = '❌ Nama tidak boleh kosong!';
+                return;
+            }
+            if (isNaN(selectedIdx) || !products[selectedIdx]) {
+                document.getElementById('formError').innerHTML = '❌ Pilih produk terlebih dahulu!';
+                return;
+            }
+            if (!fileProof || !fileProof.type.startsWith('image/')) {
+                document.getElementById('formError').innerHTML = '❌ Upload bukti transfer terlebih dahulu!';
+                return;
+            }
+
+            const selectedProduct = products[selectedIdx];
+            const waMessage = `Bang HANZZ Beli Di Web:%0ANama: ${encodeURIComponent(nama)}%0AProduk: ${encodeURIComponent(selectedProduct.name)}%0AHarga: ${encodeURIComponent(selectedProduct.price)}%0A%0ATRX DONE%E2%9C%85`;
+            const waUrl = `https://wa.me/6283196463931?text=${waMessage}`;
+            window.location.href = waUrl;
+        });
+
+        // Close Modal
+        document.querySelector('.close-modal')?.addEventListener('click', () => {
+            document.getElementById('orderModal').classList.remove('active');
+        });
+        window.addEventListener('click', (e) => {
+            const modal = document.getElementById('orderModal');
+            if (e.target === modal) modal.classList.remove('active');
+        });
+
+        function escapeHtml(str) {
+            return str.replace(/[&<>]/g, function(m) {
+                if (m === '&') return '&amp;';
+                if (m === '<') return '&lt;';
+                if (m === '>') return '&gt;';
+                return m;
+            });
+        }
+
+        // Create floating particles
+        function createParticles() {
+            const container = document.getElementById('particles');
+            for (let i = 0; i < 35; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                const size = Math.random() * 4 + 1;
+                particle.style.width = size + 'px';
+                particle.style.height = size + 'px';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDuration = Math.random() * 8 + 6 + 's';
+                particle.style.animationDelay = Math.random() * 5 + 's';
+                particle.style.opacity = Math.random() * 0.4 + 0.1;
+                container.appendChild(particle);
+            }
+        }
+
+        renderProducts();
+        createParticles();
+    </script>
+</body>
+</html>
