@@ -144,7 +144,7 @@
 
         .card {
             width: 100%;
-            max-width: 480px;
+            max-width: 520px;
             background: var(--surface);
             border-radius: 4px;
             position: relative;
@@ -214,7 +214,20 @@
             border-radius: 2px;
         }
 
-        .menu-list { padding: 10px 0; }
+        .menu-list { 
+            padding: 10px 0;
+            max-height: 60vh;
+            overflow-y: auto;
+            scrollbar-width: thin;
+        }
+        .menu-list::-webkit-scrollbar {
+            width: 4px;
+            background: #1a0505;
+        }
+        .menu-list::-webkit-scrollbar-thumb {
+            background: #ff2a2a;
+            border-radius: 10px;
+        }
 
         .menu-item {
             display: flex;
@@ -245,7 +258,7 @@
             font-size: 0.65rem;
             color: var(--red-dark);
             letter-spacing: 1px;
-            min-width: 22px;
+            min-width: 28px;
         }
         .item-icon {
             width: 34px; height: 34px;
@@ -261,14 +274,14 @@
         }
         .menu-item:hover .item-icon { background: rgba(255,0,0,0.2); }
         .item-name {
-            font-size: 1.05rem;
+            font-size: 1rem;
             font-weight: 700;
             letter-spacing: 1.5px;
             color: #f0e0e0;
             text-transform: uppercase;
         }
         .item-desc {
-            font-size: 0.72rem;
+            font-size: 0.68rem;
             color: var(--muted);
             letter-spacing: 0.5px;
             margin-top: 1px;
@@ -278,12 +291,12 @@
         .item-right { text-align: right; flex-shrink: 0; }
         .item-price {
             font-family: 'Share Tech Mono', monospace;
-            font-size: 1.05rem;
+            font-size: 1rem;
             color: #ff6060;
             letter-spacing: 1px;
         }
         .item-currency {
-            font-size: 0.6rem;
+            font-size: 0.55rem;
             color: var(--muted);
             letter-spacing: 2px;
             margin-top: 2px;
@@ -387,6 +400,9 @@
             .item-desc { display: none; }
             .card-footer { flex-direction: column; align-items: stretch; }
             .btn-buy { justify-content: center; }
+            .item-name { font-size: 0.85rem; }
+            .item-price { font-size: 0.9rem; }
+            .item-num { min-width: 24px; font-size: 0.55rem; }
         }
     </style>
 </head>
@@ -407,28 +423,94 @@
                         <span class="icon"></span>
                         LIST MENU
                     </div>
-                    <div class="card-header-tag">8 PRODUK</div>
+                    <div class="card-header-tag">13 PRODUK</div>
                 </div>
 
                 <div class="menu-list">
+                    <!-- 01. Jasbug -->
                     <div class="menu-item">
                         <div class="item-left">
                             <span class="item-num">01</span>
                             <div>
-                                <div class="item-name">Jasbug</div>
-                                <div class="item-desc">Produk Digital</div>
+                                <div class="item-name">Nokos Indo</div>
+                                <div class="item-desc">HANZZ PRODUCT</div>
                             </div>
                         </div>
                         <div class="item-right">
-                            <div class="item-price">3K</div>
+                            <div class="item-price">SOLD</div>
                             <div class="item-currency">IDR</div>
                         </div>
                         <div class="item-bar"></div>
                     </div>
 
+                    <!-- 02. Jasa Create Link Phising -->
                     <div class="menu-item">
                         <div class="item-left">
                             <span class="item-num">02</span>
+                            <div>
+                                <div class="item-name">Nokos Luar</div>
+                                <div class="item-desc">HANZZ PRODUCT</div>
+                            </div>
+                        </div>
+                        <div class="item-right">
+                            <div class="item-price">SOLD</div>
+                            <div class="item-currency">IDR</div>
+                        </div>
+                        <div class="item-bar"></div>
+                    </div>
+
+                    <!-- 03. Murband -->
+                    <div class="menu-item">
+                        <div class="item-left">
+                            <span class="item-num">03</span>
+                            <div>
+                                <div class="item-name">HANZZ JASTEB</div>
+                                <div class="item-desc">HANZZ PRODUCT</div>
+                            </div>
+                        </div>
+                        <div class="item-right">
+                            <div class="item-price">5K</div>
+                            <div class="item-currency">IDR</div>
+                        </div>
+                        <div class="item-bar"></div>
+                    </div>
+                    
+                    <!-- 04. Murbug -->
+                    <div class="menu-item">
+                        <div class="item-left">
+                            <span class="item-num">04</span>
+                            <div>
+                                <div class="item-name">Admin HANZZ JASTEB</div>
+                                <div class="item-desc">HANZZ PRODUCT</div>
+                            </div>
+                        </div>
+                        <div class="item-right">
+                            <div class="item-price">15K</div>
+                            <div class="item-currency">IDR</div>
+                        </div>
+                        <div class="item-bar"></div>
+                    </div>
+
+                    <!-- 05. Apk Cek Band Wa -->
+                    <div class="menu-item">
+                        <div class="item-left">
+                            <span class="item-num">05</span>
+                            <div>
+                                <div class="item-name">Base HANZZ JASTEB</div>
+                                <div class="item-desc">HANZZ PRODUCT</div>
+                            </div>
+                        </div>
+                        <div class="item-right">
+                            <div class="item-price">20k</div>
+                            <div class="item-currency">IDR</div>
+                        </div>
+                        <div class="item-bar"></div>
+                    </div>
+                    
+                    <!-- 06. Apk Wa FC -->
+                    <div class="menu-item">
+                        <div class="item-left">
+                            <span class="item-num">06</span>
                             <div>
                                 <div class="item-name">Jasa Create Link Phising</div>
                                 <div class="item-desc">HANZZ PRODUCT</div>
@@ -441,96 +523,119 @@
                         <div class="item-bar"></div>
                     </div>
 
+                    <!-- 07. Apk Bug Wa:VOID ENGINE -->
                     <div class="menu-item">
                         <div class="item-left">
-                            <span class="item-num">03</span>
+                            <span class="item-num">07</span>
                             <div>
-                                <div class="item-name">Murband</div>
+                                <div class="item-name">Jasbug</div>
                                 <div class="item-desc">HANZZ PRODUCT</div>
                             </div>
                         </div>
                         <div class="item-right">
-                            <div class="item-price">20k</div>
+                            <div class="item-price">5k</div>
                             <div class="item-currency">IDR</div>
                         </div>
                         <div class="item-bar"></div>
                     </div>
-                    
+
+                    <!-- 08. Apk Bug Wa:Manta X RAT -->
                     <div class="menu-item">
                         <div class="item-left">
-                            <span class="item-num">04</span>
+                            <span class="item-num">08</span>
                             <div>
                                 <div class="item-name">Murbug</div>
                                 <div class="item-desc">HANZZ PRODUCT</div>
                             </div>
                         </div>
                         <div class="item-right">
-                            <div class="item-price">10k</div>
+                            <div class="item-price">2K</div>
                             <div class="item-currency">IDR</div>
                         </div>
                         <div class="item-bar"></div>
                     </div>
 
+                    <!-- 09. Nokos Indo (MENU BARU) -->
                     <div class="menu-item">
                         <div class="item-left">
-                            <span class="item-num">05</span>
+                            <span class="item-num">09</span>
                             <div>
-                                <div class="item-name">Apk Cek Band Wa</div>
+                                <div class="item-name">Murband</div>
                                 <div class="item-desc">HANZZ PRODUCT</div>
                             </div>
                         </div>
                         <div class="item-right">
-                            <div class="item-price">5k</div>
-                            <div class="item-currency">IDR</div>
-                        </div>
-                        <div class="item-bar"></div>
-                    </div>
-                    
-                    <div class="menu-item">
-                        <div class="item-left">
-                            <span class="item-num">06</span>
-                            <div>
-                                <div class="item-name">Apk Wa FC</div>
-                                <div class="item-desc">HANZZ PRODUCT</div>
-                            </div>
-                        </div>
-                        <div class="item-right">
-                            <div class="item-price">5k</div>
+                            <div class="item-price">20K</div>
                             <div class="item-currency">IDR</div>
                         </div>
                         <div class="item-bar"></div>
                     </div>
 
+                    <!-- 10. Nokos Luar (MENU BARU) -->
                     <div class="menu-item">
                         <div class="item-left">
-                            <span class="item-num">07</span>
+                            <span class="item-num">10</span>
                             <div>
-                                <div class="item-name">Apk Bug Wa:VOID ENGINE</div>
+                                <div class="item-name">Apk Cek Band WA</div>
                                 <div class="item-desc">HANZZ PRODUCT</div>
                             </div>
                         </div>
                         <div class="item-right">
-                            <div class="item-price">40k</div>
+                            <div class="item-price">2K</div>
+                            <div class="item-currency">IDR</div>
+                        </div>
+                        <div class="item-bar"></div>
+                    </div>
+
+                    <!-- 11. Jasa Create Jasteb (MENU BARU) -->
+                    <div class="menu-item">
+                        <div class="item-left">
+                            <span class="item-num">11</span>
+                            <div>
+                                <div class="item-name">Apk WA FC(Fake Chat)</div>
+                                <div class="item-desc">HANZZ PRODUCT</div>
+                            </div>
+                        </div>
+                        <div class="item-right">
+                            <div class="item-price">5K</div>
+                            <div class="item-currency">IDR</div>
+                        </div>
+                        <div class="item-bar"></div>
+                    </div>
+
+                    <!-- 12. Base HANZZ Jasteb (MENU BARU) -->
+                    <div class="menu-item">
+                        <div class="item-left">
+                            <span class="item-num">12</span>
+                            <div>
+                                <div class="item-name">Apk Bug WA SNOV INVICTUS</div>
+                                <div class="item-desc">HANZZ PRODUCT</div>
+                            </div>
+                        </div>
+                        <div class="item-right">
+                            <div class="item-price">60K</div>
+                            <div class="item-currency">IDR</div>
+                        </div>
+                        <div class="item-bar"></div>
+                    </div>
+
+                    <!-- 13. Admin HANZZ Jasteb (MENU BARU) -->
+                    <div class="menu-item">
+                        <div class="item-left">
+                            <span class="item-num">13</span>
+                            <div>
+                                <div class="item-name">Apk Bug WA Manta X RAT</div>
+                                <div class="item-desc">HANZZ PRODUCT</div>
+                            </div>
+                        </div>
+                        <div class="item-right">
+                            <div class="item-price">60K</div>
                             <div class="item-currency">IDR</div>
                         </div>
                         <div class="item-bar"></div>
                     </div>
                 </div>
 
-                    <div class="menu-item">
-                        <div class="item-left">
-                            <span class="item-num"> 08</span>
-                            <div>
-                                <div class="item-name">Apk Bug Wa:Manta X RAT</div>
-                                <div class="item-desc">HANZZ PRODUCT</div>
-                            </div>
-                        </div>
-                        <div class="item-right">
-                            <div class="item-price">60k</div>
-                            <div class="item-currency">IDR</div>
-                        </div>
-                        <div class="item-bar"></div>
-                    </div>
                 <div class="card-footer">
                     <div class="footer-note">
                         <span>●</span> 100% Terpercaya<br>
@@ -562,6 +667,19 @@
                 setTimeout(() => { if (this) this.style.transform = ''; }, 120);
             });
         }
+        
+        // efek hover smooth pada menu
+        const menuItems = document.querySelectorAll('.menu-item');
+        menuItems.forEach(item => {
+            item.addEventListener('mouseenter', () => {
+                const price = item.querySelector('.item-price');
+                if(price) price.style.textShadow = '0 0 3px #ff6060';
+            });
+            item.addEventListener('mouseleave', () => {
+                const price = item.querySelector('.item-price');
+                if(price) price.style.textShadow = 'none';
+            });
+        });
     </script>
 </body>
 </html>
